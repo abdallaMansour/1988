@@ -19,7 +19,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/svg/icons/qmra_icon.svg') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/svg/icons/1988_icon.svg') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,7 +66,7 @@
       <a href="index.html" class="app-brand auth-cover-brand gap-2">
         <span class="app-brand-logo demo">
           <span class="text-primary">
-            <img width="100" src="{{ asset('assets/svg/icons/qmra_logo_dark.svg') }}" alt="QMRA" class="img-fluid">
+            <img width="100" src="{{ asset('assets/svg/icons/1988_logo_dark.svg') }}" alt="1988" class="img-fluid">
           </span>
         </span>
       </a>

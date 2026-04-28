@@ -18,9 +18,9 @@ class MediaDepartmentController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'login_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp', 'max:2048'],
-            'register_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp', 'max:2048'],
-            'dashboard_banner' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp', 'max:2048'],
+            'login_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
+            'register_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
+            'dashboard_banner' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
         ]);
 
         $media = MediaDepartment::get();

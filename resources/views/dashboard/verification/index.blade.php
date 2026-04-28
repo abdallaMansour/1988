@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>تأكيد الحساب | QMRA</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/svg/icons/qmra_icon.svg') }}" />
+    <title>تأكيد الحساب | 1988</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/svg/icons/1988_icon.svg') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet" />
@@ -20,7 +20,7 @@
 <body>
     <div class="authentication-wrapper authentication-cover">
         <a href="{{ route('dashboard.index') }}" class="app-brand auth-cover-brand gap-2">
-            <span class="app-brand-text demo text-heading fw-bold">QMRA</span>
+            <span class="app-brand-text demo text-heading fw-bold">1988</span>
         </a>
         <div class="authentication-inner row m-0">
             <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-5">

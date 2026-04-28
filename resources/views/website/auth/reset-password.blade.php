@@ -14,12 +14,12 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>إعادة تعيين كلمة المرور | QMRA</title>
+    <title>إعادة تعيين كلمة المرور | 1988</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/svg/icons/qmra_icon.svg') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/svg/icons/1988_icon.svg') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,7 +69,7 @@
       <a href="{{ route('website.landing-page') }}" class="app-brand auth-cover-brand gap-2">
         <span class="app-brand-logo demo">
           <span class="text-primary">
-            <img width="100" src="{{ asset('assets/svg/icons/qmra_logo_dark.svg') }}" alt="QMRA" class="img-fluid">
+            <img width="100" src="{{ asset('assets/svg/icons/1988_logo_dark.svg') }}" alt="1988" class="img-fluid">
           </span>
         </span>
       </a>
