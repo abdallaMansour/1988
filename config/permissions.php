@@ -63,6 +63,13 @@ return [
                 'ratings.delete' => 'حذف التقييمات',
             ],
         ],
+        'store' => [
+            'label' => 'المتجر',
+            'permissions' => [
+                'products.view' => 'عرض المنتجات',
+                'products.manage' => 'إدارة المنتجات',
+            ],
+        ],
         'support' => [
             'label' => 'الدعم الفني',
             'permissions' => [

@@ -12,37 +12,37 @@ class PagesController extends Controller
 {
     public function landingPage()
     {
-        $packages = Package::orderBy('monthly_price')->get();
-        $faqs = Faq::orderBy('order')->orderBy('id')->get();
-        $features = Feature::orderBy('order')->orderBy('id')->get();
+        $packages = Package::orderBy('monthly_price', 'asc')->get();
+        $faqs = Faq::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
+        $features = Feature::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
         return view('website.landing-page', compact('packages', 'faqs', 'features'));
     }
 
     public function privacyPolicy()
     {
-        $settings = SiteSetting::get();
+        $settings = SiteSetting::singleton();
 
         return view('website.pages.privacy-policy', compact('settings'));
     }
 
     public function termsAndConditions()
     {
-        $settings = SiteSetting::get();
+        $settings = SiteSetting::singleton();
 
         return view('website.pages.terms-and-conditions', compact('settings'));
     }
 
     public function faq()
     {
-        $faqs = Faq::orderBy('order')->orderBy('id')->get();
+        $faqs = Faq::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
         return view('website.pages.faq', compact('faqs'));
     }
 
     public function features()
     {
-        $features = Feature::orderBy('order')->orderBy('id')->get();
+        $features = Feature::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
         return view('website.pages.features', compact('features'));
     }

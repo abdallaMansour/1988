@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\PagesController;
 use App\Http\Controllers\Dashboard\FeatureController;
 use App\Http\Controllers\Dashboard\PackageController;
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\AdminAuthController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RatingController;
@@ -42,11 +43,13 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::get('packages', [PackageController::class, 'index'])->name('packages.index');
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
     Route::get('features', [FeatureController::class, 'index'])->name('features.index');
+    Route::get('products', [ProductController::class, 'index'])->name('products.index')->middleware(['auth:admin', 'permission:products.view']);
     Route::post('ratings', [RatingController::class, 'store'])->name('ratings.store')->middleware('auth:web');
     Route::get('ratings', [RatingController::class, 'index'])->name('ratings.index')->middleware(['auth:admin', 'permission:ratings.view']);
     Route::get('privacy-policy', [SiteSettingController::class, 'privacyPolicy'])->name('privacy-policy.index');
     Route::get('terms-and-conditions', [SiteSettingController::class, 'termsAndConditions'])->name('terms-and-conditions.index');
     Route::get('about-us', [SiteSettingController::class, 'aboutUs'])->name('about-us.index');
+    Route::get('about-novel', [SiteSettingController::class, 'aboutNovel'])->name('about-novel.index');
     Route::get('ios-and-android-app-link', [SiteSettingController::class, 'iosAndAndroidAppLink'])->name('ios-and-android-app-link.index');
     Route::get('media-department', [MediaDepartmentController::class, 'index'])->name('media-department.index')->middleware('permission:media-department.manage');
 
@@ -87,6 +90,15 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::delete('packages/{package}', [PackageController::class, 'destroy'])->name('packages.destroy');
         });
 
+        // Products CRUD (admin only)
+        Route::middleware('permission:products.manage')->group(function () {
+            Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+            Route::post('products', [ProductController::class, 'store'])->name('products.store');
+            Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+            Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');
+            Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+        });
+
         Route::middleware('permission:subscriptions.view')->group(function () {
             Route::get('subscriptions', [DashboardSubscriptionController::class, 'index'])->name('subscriptions.index');
             Route::get('subscriptions/{subscription}', [DashboardSubscriptionController::class, 'show'])->name('subscriptions.show');
@@ -120,6 +132,7 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::put('privacy-policy', [SiteSettingController::class, 'updatePrivacyPolicy'])->name('privacy-policy.update');
             Route::put('terms-and-conditions', [SiteSettingController::class, 'updateTermsAndConditions'])->name('terms-and-conditions.update');
             Route::put('about-us', [SiteSettingController::class, 'updateAboutUs'])->name('about-us.update');
+            Route::put('about-novel', [SiteSettingController::class, 'updateAboutNovel'])->name('about-novel.update');
             Route::put('ios-and-android-app-link', [SiteSettingController::class, 'updateIosAndAndroidAppLink'])->name('ios-and-android-app-link.update');
         });
 

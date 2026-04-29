@@ -91,8 +91,16 @@
                     <li class="menu-header small">
                         <span class="menu-header-text" data-i18n="Settings">الإعدادات</span>
                     </li>
-                    {{-- التقييمات --}}
+                    {{-- عن الروايه --}}
                     @auth('admin')
+                        @if (auth('admin')->user()->canAccess('site-settings.manage'))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.about-novel.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-book-content"></i>
+                                    <div data-i18n="About Novel">عن الروايه</div>
+                                </a>
+                            </li>
+                        @endif
                         @if (auth('admin')->user()->canAccess('ratings.view') || auth('admin')->user()->canAccess('ratings.delete'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.ratings.index') }}" class="menu-link">
@@ -184,6 +192,21 @@
                                 <a href="{{ route('dashboard.packages.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base bx bx-package"></i>
                                     <div data-i18n="Packages">الباقات</div>
+                                </a>
+                            </li>
+                        @endif
+                    @endauth
+                    
+                    <li class="menu-header small">
+                        <span class="menu-header-text" data-i18n="Store">المتجر</span>
+                    </li>
+                    {{-- المنتجات --}}
+                    @auth('admin')
+                        @if (auth('admin')->user()->canAccess('products.view') || auth('admin')->user()->canAccess('products.manage'))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.products.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-store"></i>
+                                    <div data-i18n="Products">المنتجات</div>
                                 </a>
                             </li>
                         @endif
