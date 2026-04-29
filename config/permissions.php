@@ -28,9 +28,9 @@ return [
             ],
         ],
         'users' => [
-            'label' => 'المستخدمين',
+            'label' => 'المشتركين',
             'permissions' => [
-                'users.view' => 'عرض المستخدمين',
+                'users.view' => 'عرض المشتركين',
                 'users.edit' => 'تعديل المستخدم',
                 'users.delete' => 'حذف المستخدم',
                 'users.ban' => 'حظر المستخدم',
@@ -59,6 +59,8 @@ return [
                 'faq.manage' => 'إدارة الأسئلة الشائعة',
                 'features.view' => 'عرض المميزات',
                 'features.manage' => 'إدارة المميزات',
+                'ratings.view' => 'عرض التقييمات',
+                'ratings.delete' => 'حذف التقييمات',
             ],
         ],
         'support' => [

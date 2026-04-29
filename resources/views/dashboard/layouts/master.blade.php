@@ -91,25 +91,16 @@
                     <li class="menu-header small">
                         <span class="menu-header-text" data-i18n="Settings">الإعدادات</span>
                     </li>
+                    {{-- التقييمات --}}
                     @auth('admin')
-                        @if (auth('admin')->user()->canAccess('users.view'))
+                        @if (auth('admin')->user()->canAccess('ratings.view') || auth('admin')->user()->canAccess('ratings.delete'))
                             <li class="menu-item">
-                                <a href="{{ route('dashboard.users.index') }}" class="menu-link">
-                                    <i class="menu-icon icon-base bx bx-user"></i>
-                                    <div data-i18n="Users">المستخدمين</div>
+                                <a href="{{ route('dashboard.ratings.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-star-half"></i>
+                                    <div data-i18n="Ratings">التقييمات</div>
                                 </a>
                             </li>
                         @endif
-                    @endauth
-                    @if (auth('web')->check() || (auth('admin')->check() && auth('admin')->user()->hasPermission('packages.view')))
-                        <li class="menu-item">
-                            <a href="{{ route('dashboard.packages.index') }}" class="menu-link">
-                                <i class="menu-icon icon-base bx bx-package"></i>
-                                <div data-i18n="Packages">الباقات</div>
-                            </a>
-                        </li>
-                    @endif
-                    @auth('admin')
                         @if (auth('admin')->user()->canAccess('faq.view') || auth('admin')->user()->canAccess('faq.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.faq.index') }}" class="menu-link">
@@ -154,7 +145,7 @@
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.about-us.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base bx bx-info-circle"></i>
-                                    <div data-i18n="About Us">عن الشركة</div>
+                                    <div data-i18n="About Us">عن المؤلف</div>
                                 </a>
                             </li>
                         @endif
@@ -175,6 +166,24 @@
                                 <a href="{{ route('dashboard.subscriptions.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base bx bx-credit-card"></i>
                                     <div data-i18n="Subscriptions">الإشتراكات</div>
+                                </a>
+                            </li>
+                        @endif
+                        @auth('admin')
+                            @if (auth('admin')->user()->canAccess('users.view'))
+                                <li class="menu-item">
+                                    <a href="{{ route('dashboard.users.index') }}" class="menu-link">
+                                        <i class="menu-icon icon-base bx bx-user"></i>
+                                        <div data-i18n="Users">المشتركين</div>
+                                    </a>
+                                </li>
+                            @endif
+                        @endauth
+                        @if (auth('web')->check() || (auth('admin')->check() && auth('admin')->user()->hasPermission('packages.view')))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.packages.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-package"></i>
+                                    <div data-i18n="Packages">الباقات</div>
                                 </a>
                             </li>
                         @endif

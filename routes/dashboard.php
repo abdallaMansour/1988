@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\FeatureController;
 use App\Http\Controllers\Dashboard\PackageController;
 use App\Http\Controllers\Dashboard\AdminAuthController;
 use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\RatingController;
 use App\Http\Controllers\Dashboard\SiteSettingController;
 use App\Http\Controllers\Dashboard\VerificationController;
 use App\Http\Controllers\Dashboard\SupportTicketController;
@@ -41,6 +42,8 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::get('packages', [PackageController::class, 'index'])->name('packages.index');
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
     Route::get('features', [FeatureController::class, 'index'])->name('features.index');
+    Route::post('ratings', [RatingController::class, 'store'])->name('ratings.store')->middleware('auth:web');
+    Route::get('ratings', [RatingController::class, 'index'])->name('ratings.index')->middleware(['auth:admin', 'permission:ratings.view']);
     Route::get('privacy-policy', [SiteSettingController::class, 'privacyPolicy'])->name('privacy-policy.index');
     Route::get('terms-and-conditions', [SiteSettingController::class, 'termsAndConditions'])->name('terms-and-conditions.index');
     Route::get('about-us', [SiteSettingController::class, 'aboutUs'])->name('about-us.index');
@@ -56,7 +59,7 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::put('support-tickets/{support_ticket}/status', [SupportTicketController::class, 'updateStatus'])->name('support-tickets.status')->middleware(['auth:admin', 'permission:support-tickets.manage']);
 
     Route::middleware('auth:admin')->group(function () {
-        // المستخدمين
+        // المشتركين
         Route::middleware('permission:users.view')->group(function () {
             Route::get('users', [UserController::class, 'index'])->name('users.index');
         });
@@ -105,6 +108,11 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::get('features/{feature}/edit', [FeatureController::class, 'edit'])->name('features.edit');
             Route::put('features/{feature}', [FeatureController::class, 'update'])->name('features.update');
             Route::delete('features/{feature}', [FeatureController::class, 'destroy'])->name('features.destroy');
+        });
+
+        // Ratings (admin can delete only)
+        Route::middleware('permission:ratings.delete')->group(function () {
+            Route::delete('ratings/{rating}', [RatingController::class, 'destroy'])->name('ratings.destroy');
         });
 
         // Site Settings (privacy policy & terms - same table, separate sections)

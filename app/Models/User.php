@@ -77,6 +77,11 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class);
     }
 
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     public function getActiveSubscriptionAttribute()
     {
         return $this->subscriptions()->active()->latest('expires_at')->first();

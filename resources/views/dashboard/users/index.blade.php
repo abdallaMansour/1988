@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">المستخدمين</h4>
+        <h4 class="mb-0">المشتركين</h4>
         <p class="text-body-secondary mb-0">المستخدمون الذين أكملوا التحقق من البريد الإلكتروني والهاتف</p>
     </div>
 
