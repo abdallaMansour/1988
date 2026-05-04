@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    /*
+    | Cloudflare Turnstile (نموذج الاتصال في الموقع)
+    | https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
+    */
+    'turnstile' => [
+        'site_key' => env('TURNSTILE_SITE_KEY'),
+        'secret_key' => env('TURNSTILE_SECRET_KEY'),
+    ],
+
 ];

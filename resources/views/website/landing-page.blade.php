@@ -761,6 +761,15 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        @if (config('services.turnstile.site_key') && config('services.turnstile.secret_key'))
+                                            <div class="col-12">
+                                                <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                                                <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}" data-theme="auto" data-size="normal"></div>
+                                                @error('cf-turnstile-response')
+                                                    <div class="text-danger small mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        @endif
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary">إرسال</button>
                                         </div>
