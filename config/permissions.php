@@ -70,6 +70,8 @@ return [
             'permissions' => [
                 'products.view' => 'عرض المنتجات',
                 'products.manage' => 'إدارة المنتجات',
+                'issues.view' => 'عرض القضايا',
+                'issues.manage' => 'إدارة القضايا',
             ],
         ],
         'support' => [

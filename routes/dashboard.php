@@ -5,6 +5,9 @@ use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AvailabilityPlaceController;
 use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\FeatureController;
+use App\Http\Controllers\Dashboard\IssueController;
+use App\Http\Controllers\Dashboard\IssueHintController;
+use App\Http\Controllers\Dashboard\IssueVideosController;
 use App\Http\Controllers\Dashboard\MediaDepartmentController;
 use App\Http\Controllers\Dashboard\PackageController;
 use App\Http\Controllers\Dashboard\PagesController;
@@ -46,6 +49,7 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::get('features', [FeatureController::class, 'index'])->name('features.index');
     Route::get('availability-places', [AvailabilityPlaceController::class, 'index'])->name('availability-places.index');
     Route::get('products', [ProductController::class, 'index'])->name('products.index')->middleware(['auth:admin', 'permission:products.view']);
+    Route::get('issues', [IssueController::class, 'index'])->name('issues.index')->middleware(['auth:admin', 'permission:issues.view']);
     Route::post('ratings', [RatingController::class, 'store'])->name('ratings.store')->middleware('auth:web');
     Route::get('ratings', [RatingController::class, 'index'])->name('ratings.index')->middleware(['auth:admin', 'permission:ratings.view']);
     Route::get('privacy-policy', [SiteSettingController::class, 'privacyPolicy'])->name('privacy-policy.index');
@@ -99,6 +103,21 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
             Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');
             Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+        });
+
+        // Issues CRUD (admin only)
+        Route::middleware('permission:issues.manage')->group(function () {
+            Route::get('issues/create', [IssueController::class, 'create'])->name('issues.create');
+            Route::post('issues', [IssueController::class, 'store'])->name('issues.store');
+            Route::get('issues/{issue}/videos', [IssueVideosController::class, 'edit'])->name('issues.videos.edit');
+            Route::put('issues/{issue}/videos', [IssueVideosController::class, 'update'])->name('issues.videos.update');
+            Route::delete('issues/{issue}/videos/evidence/{media}', [IssueVideosController::class, 'destroyEvidence'])->name('issues.videos.evidence.destroy');
+            Route::get('issues/{issue}/hints', [IssueHintController::class, 'index'])->name('issues.hints.index');
+            Route::post('issues/{issue}/hints', [IssueHintController::class, 'store'])->name('issues.hints.store');
+            Route::delete('issues/{issue}/hints/{hint}', [IssueHintController::class, 'destroy'])->name('issues.hints.destroy');
+            Route::get('issues/{issue}/edit', [IssueController::class, 'edit'])->name('issues.edit');
+            Route::put('issues/{issue}', [IssueController::class, 'update'])->name('issues.update');
+            Route::delete('issues/{issue}', [IssueController::class, 'destroy'])->name('issues.destroy');
         });
 
         Route::middleware('permission:subscriptions.view')->group(function () {
