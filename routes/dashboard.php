@@ -1,24 +1,25 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\EnsureUserVerified;
-use App\Http\Controllers\Dashboard\FaqController;
-use App\Http\Controllers\Dashboard\RoleController;
-use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\Dashboard\AdminController;
-use App\Http\Controllers\Dashboard\PagesController;
-use App\Http\Controllers\Dashboard\FeatureController;
-use App\Http\Controllers\Dashboard\PackageController;
-use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\AdminAuthController;
-use App\Http\Controllers\Dashboard\PermissionController;
-use App\Http\Controllers\Dashboard\RatingController;
-use App\Http\Controllers\Dashboard\SiteSettingController;
-use App\Http\Controllers\Dashboard\VerificationController;
-use App\Http\Controllers\Dashboard\SupportTicketController;
+use App\Http\Controllers\Dashboard\AdminController;
+use App\Http\Controllers\Dashboard\AvailabilityPlaceController;
+use App\Http\Controllers\Dashboard\FaqController;
+use App\Http\Controllers\Dashboard\FeatureController;
 use App\Http\Controllers\Dashboard\MediaDepartmentController;
-use App\Http\Controllers\Dashboard\TechnicalSupportController;
+use App\Http\Controllers\Dashboard\PackageController;
+use App\Http\Controllers\Dashboard\PagesController;
+use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\RatingController;
+use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\SiteSettingController;
 use App\Http\Controllers\Dashboard\SubscriptionController as DashboardSubscriptionController;
+use App\Http\Controllers\Dashboard\SupportTicketController;
+use App\Http\Controllers\Dashboard\TechnicalSupportController;
+use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\VerificationController;
+use App\Http\Middleware\EnsureUserVerified;
+use Illuminate\Support\Facades\Route;
 
 // Admin Auth (login only - no register, no forgot-password)
 Route::prefix('auth')->middleware('guest:admin')->group(function () {
@@ -43,6 +44,7 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::get('packages', [PackageController::class, 'index'])->name('packages.index');
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
     Route::get('features', [FeatureController::class, 'index'])->name('features.index');
+    Route::get('availability-places', [AvailabilityPlaceController::class, 'index'])->name('availability-places.index');
     Route::get('products', [ProductController::class, 'index'])->name('products.index')->middleware(['auth:admin', 'permission:products.view']);
     Route::post('ratings', [RatingController::class, 'store'])->name('ratings.store')->middleware('auth:web');
     Route::get('ratings', [RatingController::class, 'index'])->name('ratings.index')->middleware(['auth:admin', 'permission:ratings.view']);
@@ -120,6 +122,15 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::get('features/{feature}/edit', [FeatureController::class, 'edit'])->name('features.edit');
             Route::put('features/{feature}', [FeatureController::class, 'update'])->name('features.update');
             Route::delete('features/{feature}', [FeatureController::class, 'destroy'])->name('features.destroy');
+        });
+
+        // أماكن التوفر CRUD (admin only)
+        Route::middleware('permission:availability-places.manage')->group(function () {
+            Route::get('availability-places/create', [AvailabilityPlaceController::class, 'create'])->name('availability-places.create');
+            Route::post('availability-places', [AvailabilityPlaceController::class, 'store'])->name('availability-places.store');
+            Route::get('availability-places/{availability_place}/edit', [AvailabilityPlaceController::class, 'edit'])->name('availability-places.edit');
+            Route::put('availability-places/{availability_place}', [AvailabilityPlaceController::class, 'update'])->name('availability-places.update');
+            Route::delete('availability-places/{availability_place}', [AvailabilityPlaceController::class, 'destroy'])->name('availability-places.destroy');
         });
 
         // Ratings (admin can delete only)

@@ -125,6 +125,14 @@
                                 </a>
                             </li>
                         @endif
+                        @if (auth('admin')->user()->canAccess('availability-places.view') || auth('admin')->user()->canAccess('availability-places.manage'))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.availability-places.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-map-pin"></i>
+                                    <div data-i18n="Availability Places">أماكن التوفر</div>
+                                </a>
+                            </li>
+                        @endif
                         @if (auth('admin')->user()->canAccess('media-department.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.media-department.index') }}" class="menu-link">

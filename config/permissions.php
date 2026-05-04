@@ -59,6 +59,8 @@ return [
                 'faq.manage' => 'إدارة الأسئلة الشائعة',
                 'features.view' => 'عرض المميزات',
                 'features.manage' => 'إدارة المميزات',
+                'availability-places.view' => 'عرض أماكن التوفر',
+                'availability-places.manage' => 'إدارة أماكن التوفر',
                 'ratings.view' => 'عرض التقييمات',
                 'ratings.delete' => 'حذف التقييمات',
             ],

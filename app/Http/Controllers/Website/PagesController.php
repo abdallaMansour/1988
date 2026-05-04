@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
-use App\Models\Package;
 use App\Models\Faq;
 use App\Models\Feature;
+use App\Models\Package;
 use App\Models\SiteSetting;
 
 class PagesController extends Controller
@@ -13,8 +13,8 @@ class PagesController extends Controller
     public function landingPage()
     {
         $packages = Package::orderBy('monthly_price', 'asc')->get();
-        $faqs = Faq::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
-        $features = Feature::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
+        $faqs = Faq::orderBy('id', 'asc')->get();
+        $features = Feature::orderBy('id', 'asc')->get();
 
         return view('website.landing-page', compact('packages', 'faqs', 'features'));
     }
