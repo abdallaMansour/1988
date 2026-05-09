@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Issue;
 use App\Models\Package;
+use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\Subscription;
 use App\Services\ZiinaService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
@@ -77,12 +82,23 @@ class SubscriptionController extends Controller
             return redirect()->route('website.landing-page')->with('error', __('Invalid payment confirmation.'));
         }
 
+        $userId = auth()->id();
+
+        $purchase = Purchase::query()
+            ->where('ziina_payment_intent_id', $intentId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($purchase) {
+            return $this->finishPurchase($purchase);
+        }
+
         $subscription = Subscription::where('ziina_payment_intent_id', $intentId)
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->first();
 
         if (! $subscription) {
-            return redirect()->route('website.landing-page')->with('error', __('Subscription not found.'));
+            return redirect()->route('website.landing-page')->with('error', __('Payment record not found.'));
         }
 
         if ($subscription->status === 'active') {
@@ -102,6 +118,56 @@ class SubscriptionController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('website.landing-page')->with('error', __('Unable to verify payment.'));
         }
+    }
+
+    private function finishPurchase(Purchase $purchase): RedirectResponse
+    {
+        if ($purchase->status === 'paid') {
+            return $this->redirectAfterPurchase($purchase)->with('success', 'تم تأكيد الشراء مسبقاً.');
+        }
+
+        try {
+            $intent = $this->ziina->getPaymentIntent($purchase->ziina_payment_intent_id);
+
+            if (($intent['status'] ?? '') !== 'completed') {
+                return redirect()->route('website.landing-page')->with('error', __('Payment is not completed yet.'));
+            }
+
+            DB::transaction(function () use ($purchase) {
+                $purchase->load('purchasable');
+                $item = $purchase->purchasable;
+
+                if ($item instanceof Product) {
+                    $product = Product::query()->whereKey($item->getKey())->lockForUpdate()->first();
+                    if (! $product || ! $product->is_active) {
+                        throw new \RuntimeException('المنتج لم يعد متاحاً.');
+                    }
+                    if ($product->quantity < 1) {
+                        throw new \RuntimeException('نفد مخزون هذا المنتج.');
+                    }
+                    $product->decrement('quantity');
+                }
+
+                $purchase->update(['status' => 'paid']);
+            });
+
+            return $this->redirectAfterPurchase($purchase)->with('success', 'تم الشراء بنجاح.');
+        } catch (\RuntimeException $e) {
+            return redirect()->route('website.landing-page')->with('error', $e->getMessage());
+        } catch (\Exception $e) {
+            report($e);
+
+            return redirect()->route('website.landing-page')->with('error', __('Unable to verify payment.'));
+        }
+    }
+
+    private function redirectAfterPurchase(Purchase $purchase): RedirectResponse
+    {
+        $purchase->loadMissing('purchasable');
+
+        return $purchase->purchasable instanceof Issue
+            ? redirect()->route('website.purchased-issues')
+            : redirect()->route('website.products');
     }
 
     public function cancel()

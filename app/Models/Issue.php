@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -65,5 +66,10 @@ class Issue extends Model implements HasMedia
     public function relatedIssue(): BelongsTo
     {
         return $this->belongsTo(self::class, 'related_issue_id');
+    }
+
+    public function purchases(): MorphMany
+    {
+        return $this->morphMany(Purchase::class, 'purchasable');
     }
 }

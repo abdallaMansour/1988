@@ -108,6 +108,12 @@
                             <a class="nav-link fw-medium" href="{{ route('website.ratings') }}">التقييمات</a>
                         </li>
 
+                        @auth('web')
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{{ route('website.purchased-issues') }}">قضاياي المشتراة</a>
+                        </li>
+                        @endauth
+
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('website.landing-page') }}#landingContact">تواصل معنا</a>
                         </li>

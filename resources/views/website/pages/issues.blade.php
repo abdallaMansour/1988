@@ -3,6 +3,13 @@
 @section('content')
 <section class="section-py landing-features">
     <div class="container">
+        @if (session('success'))
+        <div class="alert alert-success text-center mb-8" role="alert">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+        <div class="alert alert-danger text-center mb-8" role="alert">{{ session('error') }}</div>
+        @endif
+
         <div class="text-center mb-4">
             <span class="badge bg-label-primary">القضايا</span>
         </div>
@@ -52,7 +59,12 @@
                         @if ($issue->details)
                         <p class="features-icon-description small flex-grow-1">{{ \Illuminate\Support\Str::limit(strip_tags($issue->details), 140) }}</p>
                         @endif
-                        <a href="{{ route('website.issues.show', $issue) }}" class="btn btn-sm btn-primary mt-auto align-self-start">التفاصيل</a>
+                        <div class="d-flex flex-wrap gap-2 mt-auto align-self-start">
+                            <a href="{{ route('website.issues.show', $issue) }}" class="btn btn-sm btn-primary">التفاصيل</a>
+                            @auth('web')
+                            <a href="{{ route('website.checkout.issue', $issue) }}" class="btn btn-sm btn-label-primary">شراء</a>
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>

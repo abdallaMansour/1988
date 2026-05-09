@@ -8,6 +8,7 @@ use App\Models\Feature;
 use App\Models\Issue;
 use App\Models\Package;
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\SiteSetting;
 
 class PagesController extends Controller
@@ -82,6 +83,37 @@ class PagesController extends Controller
 
         $issue->loadMissing('relatedIssue');
 
-        return view('website.pages.issue-show', compact('issue'));
+        $ownsIssue = auth('web')->check()
+            && auth()->user()->hasPaidPurchaseFor($issue);
+
+        if ($ownsIssue) {
+            $issue->load([
+                'hints' => fn ($q) => $q->orderBy('sort_order')->orderBy('id'),
+            ]);
+        }
+
+        $hintsExist = $ownsIssue
+            ? $issue->hints->isNotEmpty()
+            : $issue->hints()->exists();
+
+        $hasPremiumAssets = $issue->hasMedia('story_video')
+            || $issue->hasMedia('ending_video')
+            || $issue->getMedia('evidence')->isNotEmpty()
+            || $hintsExist;
+
+        return view('website.pages.issue-show', compact('issue', 'ownsIssue', 'hasPremiumAssets'));
+    }
+
+    public function purchasedIssues()
+    {
+        $purchases = Purchase::query()
+            ->where('user_id', auth()->id())
+            ->where('status', 'paid')
+            ->where('purchasable_type', Issue::class)
+            ->with('purchasable')
+            ->latest()
+            ->paginate(12);
+
+        return view('website.pages.purchased-issues', compact('purchases'));
     }
 }

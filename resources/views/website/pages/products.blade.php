@@ -3,6 +3,13 @@
 @section('content')
 <section class="section-py landing-features">
     <div class="container">
+        @if (session('success'))
+        <div class="alert alert-success text-center mb-8" role="alert">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+        <div class="alert alert-danger text-center mb-8" role="alert">{{ session('error') }}</div>
+        @endif
+
         <div class="text-center mb-4">
             <span class="badge bg-label-primary">المتجر</span>
         </div>
@@ -50,7 +57,14 @@
                         @if ($product->details)
                         <p class="features-icon-description small flex-grow-1">{{ \Illuminate\Support\Str::limit(strip_tags($product->details), 140) }}</p>
                         @endif
-                        <a href="{{ route('website.products.show', $product) }}" class="btn btn-sm btn-primary mt-auto align-self-start">التفاصيل</a>
+                        <div class="d-flex flex-wrap gap-2 mt-auto align-self-start">
+                            <a href="{{ route('website.products.show', $product) }}" class="btn btn-sm btn-primary">التفاصيل</a>
+                            @auth('web')
+                                @if ($product->quantity > 0)
+                                <a href="{{ route('website.checkout.product', $product) }}" class="btn btn-sm btn-label-primary">شراء</a>
+                                @endif
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>

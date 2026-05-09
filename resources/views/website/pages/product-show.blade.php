@@ -3,6 +3,13 @@
 @section('content')
 <section class="section-py landing-features">
     <div class="container">
+        @if (session('success'))
+        <div class="alert alert-success text-center mb-6" role="alert">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+        <div class="alert alert-danger text-center mb-6" role="alert">{{ session('error') }}</div>
+        @endif
+
         <div class="mb-6">
             <a href="{{ route('website.products') }}" class="text-body-secondary small">
                 <i class="bx bx-chevron-right align-middle"></i> العودة إلى المنتجات
@@ -56,13 +63,20 @@
                 <p class="mb-3 fs-5 fw-bold text-primary">{{ number_format((float) $product->sale_price_after_discount, 2) }} <span class="text-body-secondary fw-normal fs-6">ر.س</span></p>
                 @endif
 
-                <p class="mb-6">
+                <div class="mb-6 d-flex flex-wrap gap-2 align-items-center">
                     @if ($product->quantity > 0)
                     <span class="badge bg-label-success">متوفر</span>
                     @else
                     <span class="badge bg-label-danger">غير متوفر حالياً</span>
                     @endif
-                </p>
+                    @auth('web')
+                        @if ($product->quantity > 0)
+                        <a href="{{ route('website.checkout.product', $product) }}" class="btn btn-primary btn-sm">شراء عبر زينه</a>
+                        @endif
+                    @else
+                    <a href="{{ route('auth.login') }}" class="btn btn-outline-primary btn-sm">سجّل الدخول للشراء</a>
+                    @endauth
+                </div>
 
                 @if ($product->details)
                 <div class="border rounded p-4 bg-label-secondary bg-opacity-25">
