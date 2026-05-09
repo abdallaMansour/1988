@@ -99,6 +99,11 @@
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('website.terms-and-conditions') }}">الشروط و الأحكام</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{{ route('website.ratings') }}">التقييمات</a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('website.landing-page') }}#landingContact">تواصل معنا</a>
                         </li>

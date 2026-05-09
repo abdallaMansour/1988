@@ -50,7 +50,6 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::get('availability-places', [AvailabilityPlaceController::class, 'index'])->name('availability-places.index');
     Route::get('products', [ProductController::class, 'index'])->name('products.index')->middleware(['auth:admin', 'permission:products.view']);
     Route::get('issues', [IssueController::class, 'index'])->name('issues.index')->middleware(['auth:admin', 'permission:issues.view']);
-    Route::post('ratings', [RatingController::class, 'store'])->name('ratings.store')->middleware('auth:web');
     Route::get('ratings', [RatingController::class, 'index'])->name('ratings.index')->middleware(['auth:admin', 'permission:ratings.view']);
     Route::get('privacy-policy', [SiteSettingController::class, 'privacyPolicy'])->name('privacy-policy.index');
     Route::get('terms-and-conditions', [SiteSettingController::class, 'termsAndConditions'])->name('terms-and-conditions.index');
