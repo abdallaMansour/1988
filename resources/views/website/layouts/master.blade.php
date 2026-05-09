@@ -88,6 +88,10 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{{ route('website.issues') }}">القضايا</a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('website.features') }}">المميزات</a>
                         </li>
                         <li class="nav-item">

@@ -11,5 +11,7 @@ Route::get('/faq', [PagesController::class, 'faq'])->name('faq');
 Route::get('/features', [PagesController::class, 'features'])->name('features');
 Route::get('/products', [PagesController::class, 'products'])->name('products');
 Route::get('/products/{product}', [PagesController::class, 'product'])->name('products.show');
+Route::get('/issues', [PagesController::class, 'issues'])->name('issues');
+Route::get('/issues/{issue}', [PagesController::class, 'issue'])->name('issues.show');
 Route::get('/ratings', [RatingController::class, 'index'])->name('ratings');
 Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');

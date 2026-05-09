@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use App\Models\Faq;
 use App\Models\Feature;
+use App\Models\Issue;
 use App\Models\Package;
 use App\Models\Product;
 use App\Models\SiteSetting;
@@ -63,5 +64,24 @@ class PagesController extends Controller
         abort_unless($product->is_active, 404);
 
         return view('website.pages.product-show', compact('product'));
+    }
+
+    public function issues()
+    {
+        $issues = Issue::query()
+            ->where('is_active', true)
+            ->orderBy('title')
+            ->paginate(12);
+
+        return view('website.pages.issues', compact('issues'));
+    }
+
+    public function issue(Issue $issue)
+    {
+        abort_unless($issue->is_active, 404);
+
+        $issue->loadMissing('relatedIssue');
+
+        return view('website.pages.issue-show', compact('issue'));
     }
 }
