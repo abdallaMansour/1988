@@ -104,16 +104,16 @@ class PagesController extends Controller
         return view('website.pages.issue-show', compact('issue', 'ownsIssue', 'hasPremiumAssets'));
     }
 
-    public function purchasedIssues()
+    public function myPurchases()
     {
         $purchases = Purchase::query()
             ->where('user_id', auth()->id())
             ->where('status', 'paid')
-            ->where('purchasable_type', Issue::class)
+            ->whereIn('purchasable_type', [Issue::class, Product::class])
             ->with('purchasable')
             ->latest()
             ->paginate(12);
 
-        return view('website.pages.purchased-issues', compact('purchases'));
+        return view('website.pages.my-purchases', compact('purchases'));
     }
 }

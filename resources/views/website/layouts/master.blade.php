@@ -110,7 +110,7 @@
 
                         @auth('web')
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('website.purchased-issues') }}">قضاياي المشتراة</a>
+                            <a class="nav-link fw-medium" href="{{ route('website.my-purchases') }}">قسم المشتريات</a>
                         </li>
                         @endauth
 

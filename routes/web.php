@@ -24,8 +24,10 @@ Route::middleware('auth:web')->group(function () {
     Route::post('/checkout/products/{product}', [StoreCheckoutController::class, 'productPay'])->name('website.checkout.product.pay');
     Route::get('/checkout/issues/{issue}', [StoreCheckoutController::class, 'issueCheckout'])->name('website.checkout.issue');
     Route::post('/checkout/issues/{issue}', [StoreCheckoutController::class, 'issuePay'])->name('website.checkout.issue.pay');
-    Route::get('/my-purchases/issues', [PagesController::class, 'purchasedIssues'])->name('website.purchased-issues');
+    Route::get('/my-purchases', [PagesController::class, 'myPurchases'])->name('website.my-purchases');
 });
+
+Route::redirect('/my-purchases/issues', '/my-purchases', 301);
 
 Route::prefix('dashboard')->as('dashboard.')->group(function () {
     require_once __DIR__.'/dashboard.php';

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
-use App\Models\Issue;
 use App\Models\Package;
 use App\Models\Product;
 use App\Models\Purchase;
@@ -179,9 +178,7 @@ class SubscriptionController extends Controller
     {
         $purchase->loadMissing('purchasable');
 
-        return $purchase->purchasable instanceof Issue
-            ? redirect()->route('website.purchased-issues')
-            : redirect()->route('website.products');
+        return redirect()->route('website.my-purchases');
     }
 
     public function cancel()

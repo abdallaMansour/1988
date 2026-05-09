@@ -58,7 +58,7 @@
                         <span class="badge bg-label-success py-2 px-3"><i class="bx bx-check me-1"></i> تم شراء هذه القضية — المحتوى الكامل أسفل الصفحة</span>
                         @else
                         <a href="{{ route('website.checkout.issue', $issue) }}" class="btn btn-primary btn-sm">شراء عبر زينه</a>
-                        <a href="{{ route('website.purchased-issues') }}" class="btn btn-label-secondary btn-sm">قضاياي المشتراة</a>
+                        <a href="{{ route('website.my-purchases') }}" class="btn btn-label-secondary btn-sm">قسم المشتريات</a>
                         @endif
                     @else
                     <a href="{{ route('auth.login') }}" class="btn btn-outline-primary btn-sm">سجّل الدخول للشراء</a>
