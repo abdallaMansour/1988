@@ -173,6 +173,16 @@
                                 </a>
                             </li>
                         @endif
+
+                        @if (auth('admin')->user()->canAccess('ranks.view') || auth('admin')->user()->canAccess('ranks.manage'))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.ranks.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-trophy"></i>
+                                    <div data-i18n="Ranks">الرانكات</div>
+                                </a>
+                            </li>
+                        @endif
+
                         {{-- Subscriptions --}}
                         @if (auth('admin')->user()->canAccess('subscriptions.view') || auth('admin')->user()->canAccess('subscriptions.manage'))
                             <li class="menu-header small">

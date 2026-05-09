@@ -13,6 +13,7 @@ use App\Http\Controllers\Dashboard\PackageController;
 use App\Http\Controllers\Dashboard\PagesController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\RankController;
 use App\Http\Controllers\Dashboard\RatingController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SiteSettingController;
@@ -155,6 +156,14 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
         Route::middleware('permission:ratings.delete')->group(function () {
             Route::delete('ratings/{rating}', [RatingController::class, 'destroy'])->name('ratings.destroy');
         });
+
+        // Ranks CRUD (admin only — الصلاحيات داخل المتحكم)
+        Route::get('ranks', [RankController::class, 'index'])->name('ranks.index');
+        Route::get('ranks/create', [RankController::class, 'create'])->name('ranks.create');
+        Route::post('ranks', [RankController::class, 'store'])->name('ranks.store');
+        Route::get('ranks/{rank}/edit', [RankController::class, 'edit'])->name('ranks.edit');
+        Route::put('ranks/{rank}', [RankController::class, 'update'])->name('ranks.update');
+        Route::delete('ranks/{rank}', [RankController::class, 'destroy'])->name('ranks.destroy');
 
         // Site Settings (privacy policy & terms - same table, separate sections)
         Route::middleware('permission:site-settings.manage')->group(function () {

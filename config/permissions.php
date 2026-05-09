@@ -63,6 +63,8 @@ return [
                 'availability-places.manage' => 'إدارة أماكن التوفر',
                 'ratings.view' => 'عرض التقييمات',
                 'ratings.delete' => 'حذف التقييمات',
+                'ranks.view' => 'عرض الرانكات',
+                'ranks.manage' => 'إدارة الرانكات',
             ],
         ],
         'store' => [
