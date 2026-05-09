@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\AdminAuthController;
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AvailabilityPlaceController;
+use App\Http\Controllers\Dashboard\CouponController;
 use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\FeatureController;
 use App\Http\Controllers\Dashboard\IssueController;
@@ -164,6 +165,14 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
         Route::get('ranks/{rank}/edit', [RankController::class, 'edit'])->name('ranks.edit');
         Route::put('ranks/{rank}', [RankController::class, 'update'])->name('ranks.update');
         Route::delete('ranks/{rank}', [RankController::class, 'destroy'])->name('ranks.destroy');
+
+        // Coupons CRUD (admin only — الصلاحيات داخل المتحكم)
+        Route::get('coupons', [CouponController::class, 'index'])->name('coupons.index');
+        Route::get('coupons/create', [CouponController::class, 'create'])->name('coupons.create');
+        Route::post('coupons', [CouponController::class, 'store'])->name('coupons.store');
+        Route::get('coupons/{coupon}/edit', [CouponController::class, 'edit'])->name('coupons.edit');
+        Route::put('coupons/{coupon}', [CouponController::class, 'update'])->name('coupons.update');
+        Route::delete('coupons/{coupon}', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
         // Site Settings (privacy policy & terms - same table, separate sections)
         Route::middleware('permission:site-settings.manage')->group(function () {

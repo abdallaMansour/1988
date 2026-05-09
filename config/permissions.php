@@ -74,6 +74,8 @@ return [
                 'products.manage' => 'إدارة المنتجات',
                 'issues.view' => 'عرض القضايا',
                 'issues.manage' => 'إدارة القضايا',
+                'coupons.view' => 'عرض كوبونات الخصم',
+                'coupons.manage' => 'إدارة كوبونات الخصم',
             ],
         ],
         'support' => [

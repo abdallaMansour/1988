@@ -183,6 +183,15 @@
                             </li>
                         @endif
 
+                        @if (auth('admin')->user()->canAccess('coupons.view') || auth('admin')->user()->canAccess('coupons.manage'))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.coupons.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-purchase-tag"></i>
+                                    <div data-i18n="Coupons">كوبونات الخصم</div>
+                                </a>
+                            </li>
+                        @endif
+
                         {{-- Subscriptions --}}
                         @if (auth('admin')->user()->canAccess('subscriptions.view') || auth('admin')->user()->canAccess('subscriptions.manage'))
                             <li class="menu-header small">
