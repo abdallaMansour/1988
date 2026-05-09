@@ -82,6 +82,11 @@
                         <li class="nav-item">
                             <a class="nav-link fw-medium" aria-current="page" href="{{ route('website.landing-page') }}#landingHero">الرئيسية</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{{ route('website.products') }}">المنتجات</a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('website.features') }}">المميزات</a>
                         </li>

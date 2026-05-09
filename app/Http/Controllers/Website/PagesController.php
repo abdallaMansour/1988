@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Faq;
 use App\Models\Feature;
 use App\Models\Package;
+use App\Models\Product;
 use App\Models\SiteSetting;
 
 class PagesController extends Controller
@@ -45,5 +46,22 @@ class PagesController extends Controller
         $features = Feature::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
         return view('website.pages.features', compact('features'));
+    }
+
+    public function products()
+    {
+        $products = Product::query()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->paginate(12);
+
+        return view('website.pages.products', compact('products'));
+    }
+
+    public function product(Product $product)
+    {
+        abort_unless($product->is_active, 404);
+
+        return view('website.pages.product-show', compact('product'));
     }
 }
