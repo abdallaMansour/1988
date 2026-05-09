@@ -28,7 +28,7 @@ class UserAuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $key = 'user-login:' . $request->ip();
+        $key = 'user-login:'.$request->ip();
         if (RateLimiter::tooManyAttempts($key, 5)) {
             return back()->withErrors([
                 'email' => __('Too many login attempts. Please try again in :seconds seconds.', [
@@ -41,6 +41,7 @@ class UserAuthController extends Controller
             $user = Auth::guard('web')->user();
             if ($user->isBanned()) {
                 Auth::guard('web')->logout();
+
                 return back()->withErrors([
                     'email' => __('حسابك محظور. يرجى التواصل مع الدعم الفني.'),
                 ])->withInput($request->only('email'));
@@ -81,7 +82,7 @@ class UserAuthController extends Controller
 
         Auth::guard('web')->login($user);
 
-        return redirect()->route('website.landing-page');
+        return redirect()->intended(route('website.landing-page'));
     }
 
     public function logout(Request $request)

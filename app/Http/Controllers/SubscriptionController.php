@@ -178,6 +178,10 @@ class SubscriptionController extends Controller
     {
         $purchase->loadMissing('purchasable');
 
+        if ($purchase->gift_claim_token !== null) {
+            return redirect()->route('website.gift.sent', $purchase);
+        }
+
         return redirect()->route('website.my-purchases');
     }
 

@@ -62,9 +62,18 @@
                                 <span class="text-body-secondary">غير متاح</span>
                                 @endif
                             </td>
-                            <td>{{ number_format((float) $purchase->amount, 2) }} {{ $purchase->currency }}</td>
                             <td>
-                                @if ($discount > 0)
+                                @if ($purchase->gift_from_user_id)
+                                <span class="fw-medium text-success">هدية 🎁</span>
+                                <small class="d-block text-body-secondary">من {{ $purchase->giftFrom?->name ?? 'مستخدم' }}</small>
+                                @else
+                                {{ number_format((float) $purchase->amount, 2) }} {{ $purchase->currency }}
+                                @endif
+                            </td>
+                            <td>
+                                @if ($purchase->gift_from_user_id)
+                                <span class="text-body-secondary">—</span>
+                                @elseif ($discount > 0)
                                 {{ number_format($discount, 2) }} {{ $purchase->currency }}
                                 @else
                                 <span class="text-body-secondary">—</span>

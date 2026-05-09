@@ -20,6 +20,9 @@ class Purchase extends Model
         'status',
         'ziina_payment_intent_id',
         'ziina_operation_id',
+        'gift_claim_token',
+        'gift_invite_email',
+        'gift_from_user_id',
     ];
 
     protected function casts(): array
@@ -41,6 +44,11 @@ class Purchase extends Model
         return $this->belongsTo(Coupon::class);
     }
 
+    public function giftFrom(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'gift_from_user_id');
+    }
+
     public function purchasable(): MorphTo
     {
         return $this->morphTo();
@@ -49,5 +57,15 @@ class Purchase extends Model
     public function isPaid(): bool
     {
         return $this->status === 'paid';
+    }
+
+    public function isPendingGift(): bool
+    {
+        return $this->gift_claim_token !== null && $this->gift_from_user_id === null;
+    }
+
+    public function isReceivedGift(): bool
+    {
+        return $this->gift_from_user_id !== null;
     }
 }

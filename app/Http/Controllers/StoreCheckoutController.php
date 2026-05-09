@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Services\CheckoutCouponService;
 use App\Services\ZiinaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class StoreCheckoutController extends Controller
 {
@@ -22,7 +23,20 @@ class StoreCheckoutController extends Controller
             return $redirect;
         }
 
-        return view('website.checkout.product', compact('product'));
+        $isGift = false;
+
+        return view('website.checkout.product', compact('product', 'isGift'));
+    }
+
+    public function productGiftCheckout(Product $product)
+    {
+        if ($redirect = $this->authorizeProduct($product)) {
+            return $redirect;
+        }
+
+        $isGift = true;
+
+        return view('website.checkout.product', compact('product', 'isGift'));
     }
 
     public function productPay(Product $product, Request $request)
@@ -42,8 +56,32 @@ class StoreCheckoutController extends Controller
             $product,
             $pricing,
             $currency,
-            "منتج: {$product->name}",
-            route('website.products.show', $product)
+            'منتج: '.$product->name,
+            route('website.products.show', $product),
+            null,
+        );
+    }
+
+    public function productGiftPay(Product $product, Request $request)
+    {
+        if ($redirect = $this->authorizeProduct($product)) {
+            return $redirect;
+        }
+
+        $currency = config('ziina.currency', 'AED');
+
+        $pricing = $this->checkoutCoupon->apply($request->input('coupon_code'), $product, auth()->id());
+        if (! $pricing['ok']) {
+            return redirect()->route('website.checkout.product.gift', $product)->withErrors(['coupon_code' => $pricing['message']])->withInput();
+        }
+
+        return $this->startZiinaCheckout(
+            $product,
+            $pricing,
+            $currency,
+            'هدية — منتج: '.$product->name,
+            route('website.products.show', $product),
+            Str::uuid()->toString(),
         );
     }
 
@@ -51,7 +89,18 @@ class StoreCheckoutController extends Controller
     {
         $this->authorizeIssue($issue);
 
-        return view('website.checkout.issue', compact('issue'));
+        $isGift = false;
+
+        return view('website.checkout.issue', compact('issue', 'isGift'));
+    }
+
+    public function issueGiftCheckout(Issue $issue)
+    {
+        $this->authorizeIssue($issue);
+
+        $isGift = true;
+
+        return view('website.checkout.issue', compact('issue', 'isGift'));
     }
 
     public function issuePay(Issue $issue, Request $request)
@@ -69,8 +118,30 @@ class StoreCheckoutController extends Controller
             $issue,
             $pricing,
             $currency,
-            "قضية: {$issue->title}",
-            route('website.issues.show', $issue)
+            'قضية: '.$issue->title,
+            route('website.issues.show', $issue),
+            null,
+        );
+    }
+
+    public function issueGiftPay(Issue $issue, Request $request)
+    {
+        $this->authorizeIssue($issue);
+
+        $currency = config('ziina.currency', 'AED');
+
+        $pricing = $this->checkoutCoupon->apply($request->input('coupon_code'), $issue, auth()->id());
+        if (! $pricing['ok']) {
+            return redirect()->route('website.checkout.issue.gift', $issue)->withErrors(['coupon_code' => $pricing['message']])->withInput();
+        }
+
+        return $this->startZiinaCheckout(
+            $issue,
+            $pricing,
+            $currency,
+            'هدية — قضية: '.$issue->title,
+            route('website.issues.show', $issue),
+            Str::uuid()->toString(),
         );
     }
 
@@ -92,7 +163,7 @@ class StoreCheckoutController extends Controller
     /**
      * @param  array{ok: true, coupon: ?\App\Models\Coupon, subtotal: float, discount_amount: float, final_amount: float}  $pricing
      */
-    private function startZiinaCheckout($purchasable, array $pricing, string $currency, string $message, string $backRoute): \Illuminate\Http\RedirectResponse
+    private function startZiinaCheckout($purchasable, array $pricing, string $currency, string $message, string $backRoute, ?string $giftClaimToken = null): \Illuminate\Http\RedirectResponse
     {
         $amount = $pricing['final_amount'];
 
@@ -100,7 +171,7 @@ class StoreCheckoutController extends Controller
             return redirect()->to($backRoute)->with('error', __('السعر غير صالح.'));
         }
 
-        $purchase = Purchase::create([
+        $purchaseData = [
             'user_id' => auth()->id(),
             'coupon_id' => $pricing['coupon']?->id,
             'purchasable_type' => $purchasable->getMorphClass(),
@@ -110,7 +181,13 @@ class StoreCheckoutController extends Controller
             'subtotal' => $pricing['subtotal'],
             'discount_amount' => $pricing['discount_amount'],
             'status' => 'pending',
-        ]);
+        ];
+
+        if ($giftClaimToken !== null) {
+            $purchaseData['gift_claim_token'] = $giftClaimToken;
+        }
+
+        $purchase = Purchase::create($purchaseData);
 
         $successUrl = config('ziina.success_url');
         $cancelUrl = config('ziina.cancel_url');

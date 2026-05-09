@@ -109,8 +109,12 @@ class PagesController extends Controller
         $purchases = Purchase::query()
             ->where('user_id', auth()->id())
             ->where('status', 'paid')
+            ->where(function ($q) {
+                $q->whereNull('gift_claim_token')
+                    ->orWhereNotNull('gift_from_user_id');
+            })
             ->whereIn('purchasable_type', [Issue::class, Product::class])
-            ->with('purchasable')
+            ->with(['purchasable', 'giftFrom'])
             ->latest()
             ->paginate(12);
 

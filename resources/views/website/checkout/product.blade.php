@@ -7,7 +7,7 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h4 class="mb-0">شراء {{ $product->name }}</h4>
+                        <h4 class="mb-0">{{ ($isGift ?? false) ? 'إهداء المنتج لصديق: '.$product->name : 'شراء '.$product->name }}</h4>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-                        <form action="{{ route('website.checkout.product.pay', $product) }}" method="POST">
+                        <form action="{{ ($isGift ?? false) ? route('website.checkout.product.gift.pay', $product) : route('website.checkout.product.pay', $product) }}" method="POST">
                             @csrf
                             <div class="mb-4">
                                 <label for="coupon_code" class="form-label">كوبون الخصم (اختياري)</label>

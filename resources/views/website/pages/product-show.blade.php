@@ -72,6 +72,7 @@
                     @auth('web')
                         @if ($product->quantity > 0)
                         <a href="{{ route('website.checkout.product', $product) }}" class="btn btn-primary btn-sm">شراء عبر زينه</a>
+                        <a href="{{ route('website.checkout.product.gift', $product) }}" class="btn btn-label-primary btn-sm"><i class="bx bx-gift me-1"></i> اهديه لصديقك</a>
                         @endif
                     @else
                     <a href="{{ route('auth.login') }}" class="btn btn-outline-primary btn-sm">سجّل الدخول للشراء</a>
