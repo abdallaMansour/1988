@@ -36,6 +36,13 @@
 
                         <form action="{{ route('website.checkout.product.pay', $product) }}" method="POST">
                             @csrf
+                            <div class="mb-4">
+                                <label for="coupon_code" class="form-label">كوبون الخصم (اختياري)</label>
+                                <input type="text" name="coupon_code" id="coupon_code" value="{{ old('coupon_code') }}" class="form-control @error('coupon_code') is-invalid @enderror" maxlength="191" autocomplete="off" placeholder="أدخل الكود إن وجد">
+                                @error('coupon_code')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <div class="d-flex gap-3 flex-wrap">
                                 <a href="{{ route('website.products.show', $product) }}" class="btn btn-label-secondary">إلغاء</a>
                                 <button type="submit" class="btn btn-primary">

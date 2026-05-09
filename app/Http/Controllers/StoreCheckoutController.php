@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Issue;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Services\CheckoutCouponService;
 use App\Services\ZiinaService;
+use Illuminate\Http\Request;
 
 class StoreCheckoutController extends Controller
 {
     public function __construct(
-        private ZiinaService $ziina
+        private ZiinaService $ziina,
+        private CheckoutCouponService $checkoutCoupon,
     ) {}
 
     public function productCheckout(Product $product)
@@ -22,18 +25,22 @@ class StoreCheckoutController extends Controller
         return view('website.checkout.product', compact('product'));
     }
 
-    public function productPay(Product $product)
+    public function productPay(Product $product, Request $request)
     {
         if ($redirect = $this->authorizeProduct($product)) {
             return $redirect;
         }
 
-        $amount = (float) $product->sale_price_after_discount;
         $currency = config('ziina.currency', 'AED');
+
+        $pricing = $this->checkoutCoupon->apply($request->input('coupon_code'), $product, auth()->id());
+        if (! $pricing['ok']) {
+            return redirect()->route('website.checkout.product', $product)->withErrors(['coupon_code' => $pricing['message']])->withInput();
+        }
 
         return $this->startZiinaCheckout(
             $product,
-            $amount,
+            $pricing,
             $currency,
             "منتج: {$product->name}",
             route('website.products.show', $product)
@@ -47,16 +54,20 @@ class StoreCheckoutController extends Controller
         return view('website.checkout.issue', compact('issue'));
     }
 
-    public function issuePay(Issue $issue)
+    public function issuePay(Issue $issue, Request $request)
     {
         $this->authorizeIssue($issue);
 
-        $amount = (float) $issue->purchase_price_after_discount;
         $currency = config('ziina.currency', 'AED');
+
+        $pricing = $this->checkoutCoupon->apply($request->input('coupon_code'), $issue, auth()->id());
+        if (! $pricing['ok']) {
+            return redirect()->route('website.checkout.issue', $issue)->withErrors(['coupon_code' => $pricing['message']])->withInput();
+        }
 
         return $this->startZiinaCheckout(
             $issue,
-            $amount,
+            $pricing,
             $currency,
             "قضية: {$issue->title}",
             route('website.issues.show', $issue)
@@ -78,18 +89,26 @@ class StoreCheckoutController extends Controller
         abort_unless($issue->is_active, 404);
     }
 
-    private function startZiinaCheckout($purchasable, float $amount, string $currency, string $message, string $backRoute): \Illuminate\Http\RedirectResponse
+    /**
+     * @param  array{ok: true, coupon: ?\App\Models\Coupon, subtotal: float, discount_amount: float, final_amount: float}  $pricing
+     */
+    private function startZiinaCheckout($purchasable, array $pricing, string $currency, string $message, string $backRoute): \Illuminate\Http\RedirectResponse
     {
+        $amount = $pricing['final_amount'];
+
         if ($amount <= 0) {
             return redirect()->to($backRoute)->with('error', __('السعر غير صالح.'));
         }
 
         $purchase = Purchase::create([
             'user_id' => auth()->id(),
+            'coupon_id' => $pricing['coupon']?->id,
             'purchasable_type' => $purchasable->getMorphClass(),
             'purchasable_id' => $purchasable->getKey(),
             'amount' => $amount,
             'currency' => $currency,
+            'subtotal' => $pricing['subtotal'],
+            'discount_amount' => $pricing['discount_amount'],
             'status' => 'pending',
         ]);
 

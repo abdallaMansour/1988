@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use App\Models\Issue;
 use App\Models\Package;
 use App\Models\Product;
@@ -136,6 +137,19 @@ class SubscriptionController extends Controller
             DB::transaction(function () use ($purchase) {
                 $purchase->load('purchasable');
                 $item = $purchase->purchasable;
+
+                if ($purchase->coupon_id) {
+                    $coupon = Coupon::query()->whereKey($purchase->coupon_id)->lockForUpdate()->first();
+                    if (! $coupon || ! $coupon->isCurrentlyActive() || ! $coupon->appliesToPurchasable($item)) {
+                        throw new \RuntimeException('لم يعد الكوبون صالحاً لهذا الشراء.');
+                    }
+                    if (! $coupon->hasRemainingGlobalUses()) {
+                        throw new \RuntimeException('لم يعد بالإمكان استخدام هذا الكوبون (تم استنفاد الاستخدامات).');
+                    }
+                    if (! $coupon->hasRemainingUsesForUser((int) $purchase->user_id)) {
+                        throw new \RuntimeException('لم يعد بالإمكان استخدام هذا الكوبون لحسابك.');
+                    }
+                }
 
                 if ($item instanceof Product) {
                     $product = Product::query()->whereKey($item->getKey())->lockForUpdate()->first();
