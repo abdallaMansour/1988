@@ -84,6 +84,9 @@
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.evidences.index', $issue) }}">
                                                     <i class="bx bx-file me-2"></i> الأدله
                                                 </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard.issues.rounds.edit', $issue) }}">
+                                                    <i class="bx bx-layer me-2"></i> الجولات
+                                                </a>
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.edit', $issue) }}">
                                                     <i class="bx bx-edit-alt me-2"></i> تعديل
                                                 </a>

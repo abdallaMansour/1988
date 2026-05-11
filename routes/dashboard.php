@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\FeatureController;
 use App\Http\Controllers\Dashboard\IssueController;
 use App\Http\Controllers\Dashboard\IssueEvidenceController;
 use App\Http\Controllers\Dashboard\IssueHintController;
+use App\Http\Controllers\Dashboard\IssueRoundController;
 use App\Http\Controllers\Dashboard\IssueVideosController;
 use App\Http\Controllers\Dashboard\IssueWitnessController;
 use App\Http\Controllers\Dashboard\MediaDepartmentController;
@@ -124,6 +125,8 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::get('issues/{issue}/evidences', [IssueEvidenceController::class, 'index'])->name('issues.evidences.index');
             Route::post('issues/{issue}/evidences', [IssueEvidenceController::class, 'store'])->name('issues.evidences.store');
             Route::delete('issues/{issue}/evidences/{evidence}', [IssueEvidenceController::class, 'destroy'])->name('issues.evidences.destroy');
+            Route::get('issues/{issue}/rounds', [IssueRoundController::class, 'edit'])->name('issues.rounds.edit');
+            Route::put('issues/{issue}/rounds', [IssueRoundController::class, 'update'])->name('issues.rounds.update');
             Route::get('issues/{issue}/edit', [IssueController::class, 'edit'])->name('issues.edit');
             Route::put('issues/{issue}', [IssueController::class, 'update'])->name('issues.update');
             Route::delete('issues/{issue}', [IssueController::class, 'destroy'])->name('issues.destroy');
