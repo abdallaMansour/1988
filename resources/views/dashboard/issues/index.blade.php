@@ -87,6 +87,9 @@
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.rounds.edit', $issue) }}">
                                                     <i class="bx bx-layer me-2"></i> الجولات
                                                 </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard.issues.investigation-reports.index', $issue) }}">
+                                                    <i class="bx bx-notepad me-2"></i> محضر التحقيق
+                                                </a>
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.edit', $issue) }}">
                                                     <i class="bx bx-edit-alt me-2"></i> تعديل
                                                 </a>

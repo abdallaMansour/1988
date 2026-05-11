@@ -79,6 +79,11 @@ class Issue extends Model implements HasMedia
         return $this->hasMany(IssueRound::class)->orderBy('round_number');
     }
 
+    public function investigationReports(): HasMany
+    {
+        return $this->hasMany(IssueInvestigationReport::class);
+    }
+
     public function relatedIssue(): BelongsTo
     {
         return $this->belongsTo(self::class, 'related_issue_id');
