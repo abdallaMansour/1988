@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Issue;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class IssueController extends Controller
 {
-    private const AVAILABLE_LANGUAGES = ['ar', 'en', 'fr', 'de', 'es', 'it', 'tr', 'ur'];
-
     public function index()
     {
         if (auth('admin')->check()) {
@@ -30,7 +29,7 @@ class IssueController extends Controller
 
         return view('dashboard.issues.create', [
             'relatedIssues' => $relatedIssues,
-            'languagesOptions' => self::AVAILABLE_LANGUAGES,
+            'languagesOptions' => $this->languagesOptions(),
         ]);
     }
 
@@ -64,7 +63,7 @@ class IssueController extends Controller
         return view('dashboard.issues.edit', [
             'issue' => $issue,
             'relatedIssues' => $relatedIssues,
-            'languagesOptions' => self::AVAILABLE_LANGUAGES,
+            'languagesOptions' => $this->languagesOptions(),
         ]);
     }
 
@@ -109,7 +108,7 @@ class IssueController extends Controller
             'is_linked_to_novel' => ['required', 'boolean'],
             'is_active' => ['required', 'boolean'],
             'languages' => ['required', 'array', 'min:1'],
-            'languages.*' => ['required', 'string', Rule::in(self::AVAILABLE_LANGUAGES)],
+            'languages.*' => ['required', 'string', Rule::exists('languages', 'code')],
             'details' => ['nullable', 'string'],
             'is_related_to_another_issue' => ['required', 'boolean'],
             'related_issue_id' => [
@@ -129,5 +128,10 @@ class IssueController extends Controller
         }
 
         return isset($validated['related_issue_id']) ? (int) $validated['related_issue_id'] : null;
+    }
+
+    private function languagesOptions()
+    {
+        return Language::query()->orderBy('name', 'asc')->get();
     }
 }

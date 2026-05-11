@@ -65,6 +65,8 @@ return [
                 'ratings.delete' => 'حذف التقييمات',
                 'ranks.view' => 'عرض الرانكات',
                 'ranks.manage' => 'إدارة الرانكات',
+                'languages.view' => 'عرض اللغات',
+                'languages.manage' => 'إدارة اللغات',
             ],
         ],
         'store' => [

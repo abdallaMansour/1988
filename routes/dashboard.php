@@ -15,6 +15,7 @@ use App\Http\Controllers\Dashboard\IssueRoundController;
 use App\Http\Controllers\Dashboard\IssueVideosController;
 use App\Http\Controllers\Dashboard\IssueWitnessController;
 use App\Http\Controllers\Dashboard\IssueWitnessTestimonyController;
+use App\Http\Controllers\Dashboard\LanguageController;
 use App\Http\Controllers\Dashboard\MediaDepartmentController;
 use App\Http\Controllers\Dashboard\PackageController;
 use App\Http\Controllers\Dashboard\PagesController;
@@ -205,6 +206,14 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
         Route::get('coupons/{coupon}/edit', [CouponController::class, 'edit'])->name('coupons.edit');
         Route::put('coupons/{coupon}', [CouponController::class, 'update'])->name('coupons.update');
         Route::delete('coupons/{coupon}', [CouponController::class, 'destroy'])->name('coupons.destroy');
+
+        // Languages CRUD (admin only — الصلاحيات داخل المتحكم)
+        Route::get('languages', [LanguageController::class, 'index'])->name('languages.index');
+        Route::get('languages/create', [LanguageController::class, 'create'])->name('languages.create');
+        Route::post('languages', [LanguageController::class, 'store'])->name('languages.store');
+        Route::get('languages/{language}/edit', [LanguageController::class, 'edit'])->name('languages.edit');
+        Route::put('languages/{language}', [LanguageController::class, 'update'])->name('languages.update');
+        Route::delete('languages/{language}', [LanguageController::class, 'destroy'])->name('languages.destroy');
 
         // Site Settings (privacy policy & terms - same table, separate sections)
         Route::middleware('permission:site-settings.manage')->group(function () {

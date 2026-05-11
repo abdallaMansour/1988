@@ -78,7 +78,9 @@
                         <label for="languages" class="form-label">لغة القضية <span class="text-danger">*</span></label>
                         <select class="form-select @error('languages') is-invalid @enderror @error('languages.*') is-invalid @enderror" id="languages" name="languages[]" multiple required>
                             @foreach ($languagesOptions as $language)
-                                <option value="{{ $language }}" {{ in_array($language, old('languages', []), true) ? 'selected' : '' }}>{{ strtoupper($language) }}</option>
+                                <option value="{{ $language->code }}" {{ in_array($language->code, old('languages', []), true) ? 'selected' : '' }}>
+                                    {{ $language->name }} ({{ strtoupper($language->code) }}) — {{ $language->english_name }}
+                                </option>
                             @endforeach
                         </select>
                         @error('languages')

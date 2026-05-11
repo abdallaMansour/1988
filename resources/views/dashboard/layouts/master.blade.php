@@ -192,6 +192,15 @@
                             </li>
                         @endif
 
+                        @if (auth('admin')->user()->canAccess('languages.view') || auth('admin')->user()->canAccess('languages.manage'))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.languages.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-globe"></i>
+                                    <div data-i18n="Languages">اللغات</div>
+                                </a>
+                            </li>
+                        @endif
+
                         {{-- Subscriptions --}}
                         @if (auth('admin')->user()->canAccess('subscriptions.view') || auth('admin')->user()->canAccess('subscriptions.manage'))
                             <li class="menu-header small">
