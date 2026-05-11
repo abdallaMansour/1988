@@ -78,6 +78,12 @@
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.hints.index', $issue) }}">
                                                     <i class="bx bx-image me-2"></i> المتهمين
                                                 </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard.issues.witnesses.index', $issue) }}">
+                                                    <i class="bx bx-user-voice me-2"></i> الشهود
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard.issues.evidences.index', $issue) }}">
+                                                    <i class="bx bx-file me-2"></i> الأدله
+                                                </a>
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.edit', $issue) }}">
                                                     <i class="bx bx-edit-alt me-2"></i> تعديل
                                                 </a>
