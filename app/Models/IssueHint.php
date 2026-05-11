@@ -13,6 +13,7 @@ class IssueHint extends Model implements HasMedia
 
     protected $fillable = [
         'issue_id',
+        'title',
         'sort_order',
     ];
 

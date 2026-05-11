@@ -18,19 +18,21 @@ class IssueHintController extends Controller
 
     public function store(Request $request, Issue $issue)
     {
-        $request->validate([
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
             'image' => ['required', 'image', 'mimes:jpeg,png,gif,svg,webp', 'max:4096'],
         ]);
 
         $nextOrder = (int) $issue->hints()->max('sort_order') + 1;
 
         $hint = $issue->hints()->create([
+            'title' => $validated['title'],
             'sort_order' => $nextOrder,
         ]);
 
         $hint->addMediaFromRequest('image')->toMediaCollection('image');
 
-        return redirect()->route('dashboard.issues.hints.index', $issue)->with('success', 'تم إضافة التلميح.');
+        return redirect()->route('dashboard.issues.hints.index', $issue)->with('success', 'تم إضافة المتهم.');
     }
 
     public function destroy(Issue $issue, IssueHint $hint)
@@ -41,6 +43,6 @@ class IssueHintController extends Controller
 
         IssueHint::destroy($hint->id);
 
-        return redirect()->route('dashboard.issues.hints.index', $issue)->with('success', 'تم حذف التلميح.');
+        return redirect()->route('dashboard.issues.hints.index', $issue)->with('success', 'تم حذف المتهم.');
     }
 }

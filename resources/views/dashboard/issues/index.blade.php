@@ -76,7 +76,7 @@
                                                     <i class="bx bx-video me-2"></i> قسم الفيديوهات
                                                 </a>
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.hints.index', $issue) }}">
-                                                    <i class="bx bx-image me-2"></i> التلميحات
+                                                    <i class="bx bx-image me-2"></i> المتهمين
                                                 </a>
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.edit', $issue) }}">
                                                     <i class="bx bx-edit-alt me-2"></i> تعديل

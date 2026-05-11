@@ -87,7 +87,7 @@
         <div class="mt-10 pt-10 border-top">
             <div class="text-center mb-8">
                 <span class="badge bg-label-success mb-2">محتوى حصري</span>
-                <h5 class="mb-0">فيديوهات القضية والتلميحات</h5>
+                <h5 class="mb-0">فيديوهات القضية والمتهمين</h5>
             </div>
 
             @if ($issue->hasMedia('story_video'))
@@ -141,14 +141,17 @@
             @if ($issue->hints->isNotEmpty())
             <div class="card shadow-none border mb-0">
                 <div class="card-body">
-                    <h6 class="mb-4">التلميحات</h6>
+                    <h6 class="mb-4">المتهمين</h6>
                     <div class="row g-4">
                         @foreach ($issue->hints as $hint)
                         <div class="col-6 col-md-4 col-lg-3">
                             @if ($hint->hasMedia('image'))
                             <div class="border rounded overflow-hidden p-2 bg-label-secondary bg-opacity-25">
-                                <img src="{{ $hint->getFirstMediaUrl('image') }}" alt="تلميح {{ $loop->iteration }}" class="img-fluid rounded w-100 object-fit-cover" style="max-height: 200px;">
+                                <img src="{{ $hint->getFirstMediaUrl('image') }}" alt="متهم {{ $loop->iteration }}" class="img-fluid rounded w-100 object-fit-cover" style="max-height: 200px;">
                             </div>
+                            @if ($hint->title)
+                            <p class="small fw-medium text-center mt-2 mb-0">{{ $hint->title }}</p>
+                            @endif
                             @endif
                         </div>
                         @endforeach
@@ -164,7 +167,7 @@
         @elseif ($hasPremiumAssets)
         <div class="alert alert-secondary mt-10 mb-0 text-center" role="alert">
             <strong>محتوى حصري</strong><br>
-            تشمل هذه القضية فيديوهات وأدلة وتلميحات تظهر بعد إتمام الشراء عبر زينه.
+            تشمل هذه القضية فيديوهات وأدلة وقائمة المتهمين التي تظهر بعد إتمام الشراء عبر زينه.
             @guest('web')
             <div class="mt-3">
                 <a href="{{ route('auth.login') }}" class="btn btn-sm btn-primary">سجّل الدخول ثم اشترِ القضية</a>
