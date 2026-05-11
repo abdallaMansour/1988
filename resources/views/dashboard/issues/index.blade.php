@@ -90,6 +90,12 @@
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.investigation-reports.index', $issue) }}">
                                                     <i class="bx bx-notepad me-2"></i> محضر التحقيق
                                                 </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard.issues.forensic-reports.index', $issue) }}">
+                                                    <i class="bx bx-plus-medical me-2"></i> الطب الشرعي
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard.issues.witness-testimonies.index', $issue) }}">
+                                                    <i class="bx bx-message-square-detail me-2"></i> شهادة الشهود
+                                                </a>
                                                 <a class="dropdown-item" href="{{ route('dashboard.issues.edit', $issue) }}">
                                                     <i class="bx bx-edit-alt me-2"></i> تعديل
                                                 </a>

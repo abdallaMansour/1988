@@ -84,6 +84,16 @@ class Issue extends Model implements HasMedia
         return $this->hasMany(IssueInvestigationReport::class);
     }
 
+    public function forensicReports(): HasMany
+    {
+        return $this->hasMany(IssueForensicReport::class);
+    }
+
+    public function witnessTestimonies(): HasMany
+    {
+        return $this->hasMany(IssueWitnessTestimony::class);
+    }
+
     public function relatedIssue(): BelongsTo
     {
         return $this->belongsTo(self::class, 'related_issue_id');
