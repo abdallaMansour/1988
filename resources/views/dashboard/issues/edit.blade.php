@@ -41,6 +41,33 @@
                         @enderror
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label for="crime_year" class="form-label">السنة <span class="text-danger">*</span></label>
+                            <select class="form-select @error('crime_year') is-invalid @enderror" id="crime_year" name="crime_year" required>
+                                <option value="" disabled @selected(! old('crime_year', $issue->crime_year))>اختر السنة</option>
+                                @for ($y = \App\Models\Issue::maxCrimeYear(); $y >= \App\Models\Issue::minCrimeYear(); $y--)
+                                    <option value="{{ $y }}" @selected((int) old('crime_year', $issue->crime_year) === $y)>{{ $y }}</option>
+                                @endfor
+                            </select>
+                            @error('crime_year')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label for="crime_month" class="form-label">الشهر <span class="text-danger">*</span></label>
+                            <select class="form-select @error('crime_month') is-invalid @enderror" id="crime_month" name="crime_month" required>
+                                <option value="" disabled @selected(! old('crime_month', $issue->crime_month))>اختر الشهر</option>
+                                @for ($m = 1; $m <= 12; $m++)
+                                    <option value="{{ $m }}" @selected((int) old('crime_month', $issue->crime_month) === $m)>{{ $m }}</option>
+                                @endfor
+                            </select>
+                            @error('crime_month')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="mb-4">
                         <label for="main_image" class="form-label">الصورة الرئيسية</label>
                         @if ($issue->hasMedia('main_image'))

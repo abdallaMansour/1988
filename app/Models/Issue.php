@@ -26,9 +26,21 @@ class Issue extends Model implements HasMedia
         ];
     }
 
+    public static function minCrimeYear(): int
+    {
+        return 1880;
+    }
+
+    public static function maxCrimeYear(): int
+    {
+        return (int) now()->year;
+    }
+
     protected $fillable = [
         'title',
         'crime_type',
+        'crime_year',
+        'crime_month',
         'purchase_price_before_discount',
         'purchase_price_after_discount',
         'is_linked_to_novel',
@@ -44,6 +56,8 @@ class Issue extends Model implements HasMedia
         return [
             'purchase_price_before_discount' => 'decimal:2',
             'purchase_price_after_discount' => 'decimal:2',
+            'crime_year' => 'integer',
+            'crime_month' => 'integer',
             'is_linked_to_novel' => 'boolean',
             'is_active' => 'boolean',
             'languages' => 'array',

@@ -35,6 +35,9 @@
                     @if ($issue->crime_type)
                     <span class="badge bg-label-warning">{{ $issue->crime_type }}</span>
                     @endif
+                    @if ($issue->crime_year && $issue->crime_month)
+                    <span class="badge bg-label-primary">{{ $issue->crime_year }} / {{ $issue->crime_month }}</span>
+                    @endif
                     @if ($issue->is_linked_to_novel)
                     <span class="badge bg-label-info">مرتبط بالرواية</span>
                     @endif
