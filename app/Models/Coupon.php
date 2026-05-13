@@ -129,9 +129,9 @@ class Coupon extends Model
         return [
             self::APPLIES_ALL => 'الجميع',
             self::APPLIES_PRODUCTS => 'المنتجات',
-            self::APPLIES_ISSUES => 'القضايا',
+            self::APPLIES_ISSUES => 'الجرائم',
             self::APPLIES_SPECIFIC_PRODUCTS => 'منتجات محددة',
-            self::APPLIES_SPECIFIC_ISSUES => 'قضايا محددة',
+            self::APPLIES_SPECIFIC_ISSUES => 'جرائم محددة',
         ];
     }
 

@@ -6,7 +6,7 @@
             <h4 class="mb-0">شهادة الشهود — {{ $issue->title }}</h4>
             <div class="d-flex gap-2">
                 <a href="{{ route('dashboard.issues.index') }}" class="btn btn-label-secondary">
-                    <i class="bx bx-arrow-back me-1"></i> رجوع للقضايا
+                    <i class="bx bx-arrow-back me-1"></i> رجوع للجرائم
                 </a>
                 <a href="{{ route('dashboard.issues.witness-testimonies.create', $issue) }}" class="btn btn-primary">
                     <i class="bx bx-plus me-1"></i> إضافة شهادة

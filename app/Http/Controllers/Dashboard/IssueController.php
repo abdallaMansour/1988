@@ -14,7 +14,7 @@ class IssueController extends Controller
     {
         if (auth('admin')->check()) {
             if (! auth('admin')->user()->hasPermission('issues.view')) {
-                return abort(403, 'ليس لديك صلاحية لعرض القضايا');
+                return abort(403, 'ليس لديك صلاحية لعرض الجرائم');
             }
         }
 
@@ -53,7 +53,7 @@ class IssueController extends Controller
             $issue->addMediaFromRequest('main_image')->toMediaCollection('main_image');
         }
 
-        return redirect()->route('dashboard.issues.index')->with('success', 'تم إنشاء القضية بنجاح.');
+        return redirect()->route('dashboard.issues.index')->with('success', 'تم إنشاء الجريمة بنجاح.');
     }
 
     public function edit(Issue $issue)
@@ -88,14 +88,14 @@ class IssueController extends Controller
             $issue->addMediaFromRequest('main_image')->toMediaCollection('main_image');
         }
 
-        return redirect()->route('dashboard.issues.index')->with('success', 'تم تحديث القضية بنجاح.');
+        return redirect()->route('dashboard.issues.index')->with('success', 'تم تحديث الجريمة بنجاح.');
     }
 
     public function destroy(Issue $issue)
     {
         Issue::destroy($issue->id);
 
-        return redirect()->route('dashboard.issues.index')->with('success', 'تم حذف القضية بنجاح.');
+        return redirect()->route('dashboard.issues.index')->with('success', 'تم حذف الجريمة بنجاح.');
     }
 
     private function rules(?Issue $issue = null): array

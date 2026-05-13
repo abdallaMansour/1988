@@ -118,7 +118,7 @@ class StoreCheckoutController extends Controller
             $issue,
             $pricing,
             $currency,
-            'قضية: '.$issue->title,
+            'جريمة: '.$issue->title,
             route('website.issues.show', $issue),
             null,
         );
@@ -139,7 +139,7 @@ class StoreCheckoutController extends Controller
             $issue,
             $pricing,
             $currency,
-            'هدية — قضية: '.$issue->title,
+            'هدية — جريمة: '.$issue->title,
             route('website.issues.show', $issue),
             Str::uuid()->toString(),
         );

@@ -3,10 +3,10 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="mb-0">القضايا</h4>
+            <h4 class="mb-0">الجرائم</h4>
             @if (auth('admin')->check() && auth('admin')->user()->hasPermission('issues.manage'))
                 <a href="{{ route('dashboard.issues.create') }}" class="btn btn-primary">
-                    <i class="bx bx-plus me-1"></i> إضافة قضية
+                    <i class="bx bx-plus me-1"></i> إضافة جريمة
                 </a>
             @endif
         </div>
@@ -30,7 +30,7 @@
                             <th>مرتبطة بالرواية</th>
                             <th>الحالة</th>
                             <th>اللغات</th>
-                            <th>مرتبطة بقضية</th>
+                            <th>مرتبطة بجريمة</th>
                             @if (auth('admin')->check() && auth('admin')->user()->hasPermission('issues.manage'))
                                 <th width="120">الإجراءات</th>
                             @endif
@@ -114,7 +114,7 @@
                         @empty
                             <tr>
                                 <td colspan="{{ auth('admin')->check() && auth('admin')->user()->hasPermission('issues.manage') ? '9' : '8' }}" class="text-center py-5 text-body-secondary">
-                                    لا توجد قضايا بعد.
+                                    لا توجد جرائم بعد.
                                 </td>
                             </tr>
                         @endforelse

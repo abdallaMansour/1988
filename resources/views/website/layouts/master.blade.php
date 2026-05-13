@@ -88,7 +88,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('website.issues') }}">القضايا</a>
+                            <a class="nav-link fw-medium" href="{{ route('website.issues') }}">الجرائم</a>
                         </li>
 
                         <li class="nav-item">

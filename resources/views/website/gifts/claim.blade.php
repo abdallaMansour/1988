@@ -21,7 +21,7 @@
                             <p class="mb-1 text-body-secondary small">منتج</p>
                             <h5 class="mb-0">{{ $item->name }}</h5>
                             @elseif ($item instanceof \App\Models\Issue)
-                            <p class="mb-1 text-body-secondary small">قضية</p>
+                            <p class="mb-1 text-body-secondary small">جريمة</p>
                             <h5 class="mb-0">{{ $item->title }}</h5>
                             @endif
                         </div>

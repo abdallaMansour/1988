@@ -62,7 +62,7 @@
                                     @if ($coupon->applies_to === \App\Models\Coupon::APPLIES_SPECIFIC_PRODUCTS)
                                         <span class="small text-body-secondary d-block">({{ $coupon->products_count }} منتج)</span>
                                     @elseif ($coupon->applies_to === \App\Models\Coupon::APPLIES_SPECIFIC_ISSUES)
-                                        <span class="small text-body-secondary d-block">({{ $coupon->issues_count }} قضية)</span>
+                                        <span class="small text-body-secondary d-block">({{ $coupon->issues_count }} جريمة)</span>
                                     @endif
                                 </td>
                                 <td class="small">

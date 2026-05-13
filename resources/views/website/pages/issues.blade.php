@@ -11,15 +11,15 @@
         @endif
 
         <div class="text-center mb-4">
-            <span class="badge bg-label-primary">القضايا</span>
+            <span class="badge bg-label-primary">الجرائم</span>
         </div>
         <h4 class="text-center mb-1">
-            <span class="position-relative fw-extrabold z-1">قضايانا
+            <span class="position-relative fw-extrabold z-1">جرائمنا
                 <img src="{{ asset('assets/img/front-pages/icons/section-title-icon.png') }}" alt="" class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
             </span>
         </h4>
         <p class="text-center mb-12">
-            تصفح القضايا المتاحة حالياً.
+            تصفح الجرائم المتاحة حالياً.
         </p>
 
         <div class="row gy-6">
@@ -70,7 +70,7 @@
             </div>
             @empty
             <div class="col-12 text-center py-8 text-body-secondary">
-                لا توجد قضايا لعرضها حالياً.
+                لا توجد جرائم لعرضها حالياً.
             </div>
             @endforelse
         </div>

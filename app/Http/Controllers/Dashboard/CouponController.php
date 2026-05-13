@@ -166,7 +166,7 @@ class CouponController extends Controller
             $issueIds = array_values(array_unique($validated['issue_ids'] ?? []));
             if ($issueIds === []) {
                 throw ValidationException::withMessages([
-                    'issue_ids' => 'اختر قضية واحدة على الأقل.',
+                    'issue_ids' => 'اختر جريمة واحدة على الأقل.',
                 ]);
             }
             $validated['issue_ids'] = $issueIds;

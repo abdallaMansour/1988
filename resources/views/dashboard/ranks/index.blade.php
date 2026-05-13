@@ -30,7 +30,7 @@
                             <th width="80">الصورة</th>
                             <th width="50">#</th>
                             <th>الاسم</th>
-                            <th>القضايا المحلولة</th>
+                            <th>الجرائم المحلولة</th>
                             <th width="100">الحالة</th>
                             @if ($showActions)
                                 <th width="120">الإجراءات</th>

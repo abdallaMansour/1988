@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="mb-0">الأدله — {{ $issue->title }}</h4>
             <a href="{{ route('dashboard.issues.index') }}" class="btn btn-label-secondary">
-                <i class="bx bx-arrow-back me-1"></i> رجوع للقضايا
+                <i class="bx bx-arrow-back me-1"></i> رجوع للجرائم
             </a>
         </div>
 

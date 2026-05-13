@@ -73,7 +73,7 @@ class LanguageController extends Controller
         if (Issue::query()->whereJsonContains('languages', $language->code, 'and', false)->exists()) {
             return redirect()
                 ->route('dashboard.languages.index')
-                ->withErrors(['language' => 'لا يمكن حذف لغة مستخدمة في القضايا.']);
+                ->withErrors(['language' => 'لا يمكن حذف لغة مستخدمة في الجرائم.']);
         }
 
         Language::destroy($language->id);

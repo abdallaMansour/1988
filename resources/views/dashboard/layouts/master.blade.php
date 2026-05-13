@@ -249,14 +249,14 @@
                     @endauth
 
                     <li class="menu-header small">
-                        <span class="menu-header-text" data-i18n="Issues">القضايا</span>
+                        <span class="menu-header-text" data-i18n="Issues">الجرائم</span>
                     </li>
                     @auth('admin')
                         @if (auth('admin')->user()->canAccess('issues.view') || auth('admin')->user()->canAccess('issues.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.issues.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base bx bx-briefcase-alt-2"></i>
-                                    <div data-i18n="Issues">القضايا</div>
+                                    <div data-i18n="Issues">الجرائم</div>
                                 </a>
                             </li>
                         @endif

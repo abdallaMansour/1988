@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="mb-0">تعديل قضية</h4>
+            <h4 class="mb-0">تعديل جريمة</h4>
             <a href="{{ route('dashboard.issues.index') }}" class="btn btn-label-secondary">
                 <i class="bx bx-arrow-back me-1"></i> رجوع
             </a>
@@ -21,7 +21,7 @@
                     @method('PUT')
 
                     <div class="mb-4">
-                        <label for="title" class="form-label">عنوان القضية <span class="text-danger">*</span></label>
+                        <label for="title" class="form-label">عنوان الجريمة <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $issue->title) }}" required>
                         @error('title')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -60,7 +60,7 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="is_linked_to_novel" class="form-label">القضية مرتبطة بالرواية؟ <span class="text-danger">*</span></label>
+                            <label for="is_linked_to_novel" class="form-label">الجريمة مرتبطة بالرواية؟ <span class="text-danger">*</span></label>
                             <select class="form-select @error('is_linked_to_novel') is-invalid @enderror" id="is_linked_to_novel" name="is_linked_to_novel" required>
                                 <option value="1" {{ (string) old('is_linked_to_novel', (int) $issue->is_linked_to_novel) === '1' ? 'selected' : '' }}>نعم</option>
                                 <option value="0" {{ (string) old('is_linked_to_novel', (int) $issue->is_linked_to_novel) === '0' ? 'selected' : '' }}>لا</option>
@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="languages" class="form-label">لغة القضية <span class="text-danger">*</span></label>
+                        <label for="languages" class="form-label">لغة الجريمة <span class="text-danger">*</span></label>
                         <select class="form-select @error('languages') is-invalid @enderror @error('languages.*') is-invalid @enderror" id="languages" name="languages[]" multiple required>
                             @foreach ($languagesOptions as $language)
                                 <option value="{{ $language->code }}" {{ in_array($language->code, old('languages', $issue->languages ?? []), true) ? 'selected' : '' }}>
@@ -100,7 +100,7 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="is_related_to_another_issue" class="form-label">مرتبطة بقضية ثانية؟ <span class="text-danger">*</span></label>
+                            <label for="is_related_to_another_issue" class="form-label">مرتبطة بجريمة ثانية؟ <span class="text-danger">*</span></label>
                             <select class="form-select @error('is_related_to_another_issue') is-invalid @enderror" id="is_related_to_another_issue" name="is_related_to_another_issue" required>
                                 <option value="0" {{ (string) old('is_related_to_another_issue', (int) $issue->is_related_to_another_issue) === '0' ? 'selected' : '' }}>لا</option>
                                 <option value="1" {{ (string) old('is_related_to_another_issue', (int) $issue->is_related_to_another_issue) === '1' ? 'selected' : '' }}>نعم</option>
@@ -110,9 +110,9 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-4" id="related-issue-wrapper" style="display: none;">
-                            <label for="related_issue_id" class="form-label">اختر القضية المرتبطة <span class="text-danger">*</span></label>
+                            <label for="related_issue_id" class="form-label">اختر الجريمة المرتبطة <span class="text-danger">*</span></label>
                             <select class="form-select @error('related_issue_id') is-invalid @enderror" id="related_issue_id" name="related_issue_id">
-                                <option value="">اختر قضية</option>
+                                <option value="">اختر جريمة</option>
                                 @foreach ($relatedIssues as $relatedIssue)
                                     <option value="{{ $relatedIssue->id }}" {{ (string) old('related_issue_id', $issue->related_issue_id) === (string) $relatedIssue->id ? 'selected' : '' }}>{{ $relatedIssue->title }}</option>
                                 @endforeach
@@ -178,6 +178,6 @@
         'hiddenInputId' => 'issue_details_input',
         'formId' => 'issue-edit-form',
         'initialHtml' => old('details', $issue->details ?? ''),
-        'placeholder' => 'تفاصيل القضية…',
+        'placeholder' => 'تفاصيل الجريمة…',
     ])
 @endsection

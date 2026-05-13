@@ -121,7 +121,7 @@
                     </div>
 
                     <div id="section-specific-issues" class="mb-4 d-none">
-                        <label class="form-label">القضايا المحددة <span class="text-danger">*</span></label>
+                        <label class="form-label">الجرائم المحددة <span class="text-danger">*</span></label>
                         <select name="issue_ids[]" multiple class="form-select @error('issue_ids') is-invalid @enderror @error('issue_ids.*') is-invalid @enderror" style="min-height: 180px;">
                             @foreach ($issues as $issue)
                                 <option value="{{ $issue->id }}" @selected(in_array($issue->id, old('issue_ids', [])))>{{ $issue->title }}</option>
@@ -133,7 +133,7 @@
                         @error('issue_ids.*')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
-                        <div class="form-text">اضغط Ctrl أو Cmd لاختيار أكثر من قضية.</div>
+                        <div class="form-text">اضغط Ctrl أو Cmd لاختيار أكثر من جريمة.</div>
                     </div>
 
                     <div class="mb-4">

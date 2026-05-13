@@ -44,7 +44,7 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="solved_issues_from" class="form-label">عدد القضايا المحلولة — من <span class="text-danger">*</span></label>
+                            <label for="solved_issues_from" class="form-label">عدد الجرائم المحلولة — من <span class="text-danger">*</span></label>
                             <input type="number" min="0" step="1" class="form-control @error('solved_issues_from') is-invalid @enderror" id="solved_issues_from" name="solved_issues_from" value="{{ old('solved_issues_from', $rank->solved_issues_from) }}" required>
                             @error('solved_issues_from')
                                 <div class="invalid-feedback">{{ $message }}</div>

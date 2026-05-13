@@ -7,7 +7,7 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h4 class="mb-0">{{ ($isGift ?? false) ? 'إهداء القضية لصديق: '.$issue->title : 'شراء القضية: '.$issue->title }}</h4>
+                        <h4 class="mb-0">{{ ($isGift ?? false) ? 'إهداء الجريمة لصديق: '.$issue->title : 'شراء الجريمة: '.$issue->title }}</h4>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())

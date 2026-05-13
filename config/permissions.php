@@ -74,8 +74,8 @@ return [
             'permissions' => [
                 'products.view' => 'عرض المنتجات',
                 'products.manage' => 'إدارة المنتجات',
-                'issues.view' => 'عرض القضايا',
-                'issues.manage' => 'إدارة القضايا',
+                'issues.view' => 'عرض الجرائم',
+                'issues.manage' => 'إدارة الجرائم',
                 'coupons.view' => 'عرض كوبونات الخصم',
                 'coupons.manage' => 'إدارة كوبونات الخصم',
             ],

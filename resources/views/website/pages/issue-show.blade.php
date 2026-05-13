@@ -12,7 +12,7 @@
 
         <div class="mb-6">
             <a href="{{ route('website.issues') }}" class="text-body-secondary small">
-                <i class="bx bx-chevron-right align-middle"></i> العودة إلى القضايا
+                <i class="bx bx-chevron-right align-middle"></i> العودة إلى الجرائم
             </a>
         </div>
 
@@ -55,7 +55,7 @@
                 <div class="mb-6 d-flex flex-wrap gap-2 align-items-center">
                     @auth('web')
                         @if ($ownsIssue)
-                        <span class="badge bg-label-success py-2 px-3"><i class="bx bx-check me-1"></i> تم شراء هذه القضية — المحتوى الكامل أسفل الصفحة</span>
+                        <span class="badge bg-label-success py-2 px-3"><i class="bx bx-check me-1"></i> تم شراء هذه الجريمة — المحتوى الكامل أسفل الصفحة</span>
                         @else
                         <a href="{{ route('website.checkout.issue', $issue) }}" class="btn btn-primary btn-sm">شراء عبر زينه</a>
                         <a href="{{ route('website.checkout.issue.gift', $issue) }}" class="btn btn-label-primary btn-sm"><i class="bx bx-gift me-1"></i> اهديه لصديقك</a>
@@ -69,7 +69,7 @@
                 @if ($issue->is_related_to_another_issue && $issue->relatedIssue && $issue->relatedIssue->is_active)
                 <p class="mb-6">
                     <a href="{{ route('website.issues.show', $issue->relatedIssue) }}" class="btn btn-sm btn-label-primary">
-                        <i class="bx bx-link-external me-1"></i> قضية مرتبطة: {{ $issue->relatedIssue->title }}
+                        <i class="bx bx-link-external me-1"></i> جريمة مرتبطة: {{ $issue->relatedIssue->title }}
                     </a>
                 </p>
                 @endif
@@ -87,7 +87,7 @@
         <div class="mt-10 pt-10 border-top">
             <div class="text-center mb-8">
                 <span class="badge bg-label-success mb-2">محتوى حصري</span>
-                <h5 class="mb-0">فيديوهات القضية والمتهمين</h5>
+                <h5 class="mb-0">فيديوهات الجريمة والمتهمين</h5>
             </div>
 
             @if ($issue->hasMedia('story_video'))
@@ -161,20 +161,20 @@
             @endif
 
             @if (! $issue->hasMedia('story_video') && ! $issue->hasMedia('ending_video') && $evidenceMedia->isEmpty() && $issue->hints->isEmpty())
-            <p class="text-center text-body-secondary mb-0">لا يوجد محتوى إضافي مرفوع لهذه القضية بعد.</p>
+            <p class="text-center text-body-secondary mb-0">لا يوجد محتوى إضافي مرفوع لهذه الجريمة بعد.</p>
             @endif
         </div>
         @elseif ($hasPremiumAssets)
         <div class="alert alert-secondary mt-10 mb-0 text-center" role="alert">
             <strong>محتوى حصري</strong><br>
-            تشمل هذه القضية فيديوهات وأدلة وقائمة المتهمين التي تظهر بعد إتمام الشراء عبر زينه.
+            تشمل هذه الجريمة فيديوهات وأدلة وقائمة المتهمين التي تظهر بعد إتمام الشراء عبر زينه.
             @guest('web')
             <div class="mt-3">
-                <a href="{{ route('auth.login') }}" class="btn btn-sm btn-primary">سجّل الدخول ثم اشترِ القضية</a>
+                <a href="{{ route('auth.login') }}" class="btn btn-sm btn-primary">سجّل الدخول ثم اشترِ الجريمة</a>
             </div>
             @else
             <div class="mt-3">
-                <a href="{{ route('website.checkout.issue', $issue) }}" class="btn btn-sm btn-primary">شراء القضية</a>
+                <a href="{{ route('website.checkout.issue', $issue) }}" class="btn btn-sm btn-primary">شراء الجريمة</a>
             </div>
             @endguest
         </div>

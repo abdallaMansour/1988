@@ -7,7 +7,7 @@
             <span class="badge bg-label-primary">مشترياتي</span>
         </div>
         <h4 class="text-center mb-1">
-            <span class="position-relative fw-extrabold z-1">المنتجات والقضايا التي تم شراؤها
+            <span class="position-relative fw-extrabold z-1">المنتجات والجرائم التي تم شراؤها
                 <img src="{{ asset('assets/img/front-pages/icons/section-title-icon.png') }}" alt="" class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
             </span>
         </h4>
@@ -46,7 +46,7 @@
                         <tr>
                             <td>
                                 @if ($isIssue)
-                                <span class="badge bg-label-info">قضية</span>
+                                <span class="badge bg-label-info">جريمة</span>
                                 @elseif ($isProduct)
                                 <span class="badge bg-label-success">منتج</span>
                                 @else
@@ -96,7 +96,7 @@
                                 لم تقم بأي عملية شراء بعد.
                                 <span class="d-block mt-2">
                                     <a href="{{ route('website.products') }}" class="me-3">تصفح المنتجات</a>
-                                    <a href="{{ route('website.issues') }}">تصفح القضايا</a>
+                                    <a href="{{ route('website.issues') }}">تصفح الجرائم</a>
                                 </span>
                             </td>
                         </tr>
