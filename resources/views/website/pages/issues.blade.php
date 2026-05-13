@@ -37,6 +37,9 @@
                     @endif
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title mb-2">{{ $issue->title }}</h5>
+                        @if ($issue->crime_type)
+                        <p class="small mb-2"><span class="badge bg-label-warning">{{ $issue->crime_type }}</span></p>
+                        @endif
                         @if ($issue->is_linked_to_novel)
                         <p class="small mb-2"><span class="badge bg-label-info">مرتبط بالرواية</span></p>
                         @endif

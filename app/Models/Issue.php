@@ -14,8 +14,21 @@ class Issue extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
+    /** @return list<string> */
+    public static function crimeTypeOptions(): array
+    {
+        return [
+            'جريمة قتل',
+            'جريمة سرقة',
+            'جريمة خطف',
+            'جريمة تهديد',
+            'جريمة انتحال شخصية',
+        ];
+    }
+
     protected $fillable = [
         'title',
+        'crime_type',
         'purchase_price_before_discount',
         'purchase_price_after_discount',
         'is_linked_to_novel',

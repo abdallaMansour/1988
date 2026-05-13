@@ -29,6 +29,19 @@
                     </div>
 
                     <div class="mb-4">
+                        <label for="crime_type" class="form-label">نوع الجريمة <span class="text-danger">*</span></label>
+                        <select class="form-select @error('crime_type') is-invalid @enderror" id="crime_type" name="crime_type" required>
+                            <option value="" disabled @selected(! old('crime_type', $issue->crime_type))>اختر نوع الجريمة</option>
+                            @foreach (\App\Models\Issue::crimeTypeOptions() as $type)
+                                <option value="{{ $type }}" @selected(old('crime_type', $issue->crime_type) === $type)>{{ $type }}</option>
+                            @endforeach
+                        </select>
+                        @error('crime_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
                         <label for="main_image" class="form-label">الصورة الرئيسية</label>
                         @if ($issue->hasMedia('main_image'))
                             <div class="mb-2">

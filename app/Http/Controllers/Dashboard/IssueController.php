@@ -39,6 +39,7 @@ class IssueController extends Controller
 
         $issue = Issue::create([
             'title' => $validated['title'],
+            'crime_type' => $validated['crime_type'],
             'purchase_price_before_discount' => $validated['purchase_price_before_discount'],
             'purchase_price_after_discount' => $validated['purchase_price_after_discount'],
             'is_linked_to_novel' => (bool) $validated['is_linked_to_novel'],
@@ -73,6 +74,7 @@ class IssueController extends Controller
 
         $issue->update([
             'title' => $validated['title'],
+            'crime_type' => $validated['crime_type'],
             'purchase_price_before_discount' => $validated['purchase_price_before_discount'],
             'purchase_price_after_discount' => $validated['purchase_price_after_discount'],
             'is_linked_to_novel' => (bool) $validated['is_linked_to_novel'],
@@ -102,6 +104,7 @@ class IssueController extends Controller
     {
         return [
             'title' => ['required', 'string', 'max:255'],
+            'crime_type' => ['required', 'string', Rule::in(Issue::crimeTypeOptions())],
             'main_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp', 'max:4096'],
             'purchase_price_before_discount' => ['required', 'numeric', 'min:0'],
             'purchase_price_after_discount' => ['required', 'numeric', 'min:0', 'lte:purchase_price_before_discount'],

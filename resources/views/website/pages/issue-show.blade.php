@@ -32,6 +32,9 @@
                 <h4 class="mb-3">{{ $issue->title }}</h4>
 
                 <div class="d-flex flex-wrap gap-2 mb-4">
+                    @if ($issue->crime_type)
+                    <span class="badge bg-label-warning">{{ $issue->crime_type }}</span>
+                    @endif
                     @if ($issue->is_linked_to_novel)
                     <span class="badge bg-label-info">مرتبط بالرواية</span>
                     @endif

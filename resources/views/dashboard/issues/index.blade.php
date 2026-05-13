@@ -25,6 +25,7 @@
                         <tr>
                             <th width="70">الصورة</th>
                             <th>العنوان</th>
+                            <th>نوع الجريمة</th>
                             <th>قبل الخصم</th>
                             <th>بعد الخصم</th>
                             <th>مرتبطة بالرواية</th>
@@ -47,6 +48,7 @@
                                     @endif
                                 </td>
                                 <td><strong>{{ $issue->title }}</strong></td>
+                                <td>{{ $issue->crime_type ?: '—' }}</td>
                                 <td>{{ number_format((float) $issue->purchase_price_before_discount, 2) }}</td>
                                 <td>{{ number_format((float) $issue->purchase_price_after_discount, 2) }}</td>
                                 <td>
@@ -113,7 +115,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ auth('admin')->check() && auth('admin')->user()->hasPermission('issues.manage') ? '9' : '8' }}" class="text-center py-5 text-body-secondary">
+                                <td colspan="{{ auth('admin')->check() && auth('admin')->user()->hasPermission('issues.manage') ? '10' : '9' }}" class="text-center py-5 text-body-secondary">
                                     لا توجد جرائم بعد.
                                 </td>
                             </tr>
