@@ -167,6 +167,22 @@
                         @endif
                         @if (auth('admin')->user()->canAccess('site-settings.manage'))
                             <li class="menu-item">
+                                <a href="{{ route('dashboard.how-to-play.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-book-reader"></i>
+                                    <div data-i18n="How to Play">كيف تلعب</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if (auth('admin')->user()->canAccess('site-settings.manage'))
+                            <li class="menu-item">
+                                <a href="{{ route('dashboard.return-replacement-policy.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-transfer"></i>
+                                    <div data-i18n="Return and Replacement">سياسة الاستبدال والإرجاع</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if (auth('admin')->user()->canAccess('site-settings.manage'))
+                            <li class="menu-item">
                                 <a href="{{ route('dashboard.ios-and-android-app-link.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base bx bx-mobile"></i>
                                     <div data-i18n="iOS and Android App Link">روابط التطبيقات</div>

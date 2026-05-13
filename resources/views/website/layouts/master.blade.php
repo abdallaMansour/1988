@@ -103,6 +103,12 @@
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('website.terms-and-conditions') }}">الشروط و الأحكام</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{{ route('website.how-to-play') }}">كيف تلعب</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{{ route('website.return-replacement-policy') }}">سياسة الاستبدال والإرجاع</a>
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('website.ratings') }}">التقييمات</a>

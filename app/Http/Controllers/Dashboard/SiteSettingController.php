@@ -65,6 +65,44 @@ class SiteSettingController extends Controller
         return redirect()->route('dashboard.about-us.index')->with('success', __('تم تحديث المعلومات العامة بنجاح.'));
     }
 
+    public function howToPlay()
+    {
+        $settings = SiteSetting::singleton();
+
+        return view('dashboard.site-settings.how-to-play', compact('settings'));
+    }
+
+    public function updateHowToPlay(Request $request)
+    {
+        $validated = $request->validate([
+            'how_to_play' => ['nullable', 'string'],
+        ]);
+
+        $settings = SiteSetting::singleton();
+        $settings->update(['how_to_play' => $validated['how_to_play'] ?? '']);
+
+        return redirect()->route('dashboard.how-to-play.index')->with('success', __('تم تحديث صفحة كيف تلعب بنجاح.'));
+    }
+
+    public function returnReplacementPolicy()
+    {
+        $settings = SiteSetting::singleton();
+
+        return view('dashboard.site-settings.return-replacement-policy', compact('settings'));
+    }
+
+    public function updateReturnReplacementPolicy(Request $request)
+    {
+        $validated = $request->validate([
+            'return_replacement_policy' => ['nullable', 'string'],
+        ]);
+
+        $settings = SiteSetting::singleton();
+        $settings->update(['return_replacement_policy' => $validated['return_replacement_policy'] ?? '']);
+
+        return redirect()->route('dashboard.return-replacement-policy.index')->with('success', __('تم تحديث سياسة الاستبدال والإرجاع بنجاح.'));
+    }
+
     public function iosAndAndroidAppLink()
     {
         $settings = SiteSetting::singleton();

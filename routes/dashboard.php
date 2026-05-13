@@ -63,6 +63,8 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::get('privacy-policy', [SiteSettingController::class, 'privacyPolicy'])->name('privacy-policy.index');
     Route::get('terms-and-conditions', [SiteSettingController::class, 'termsAndConditions'])->name('terms-and-conditions.index');
     Route::get('about-us', [SiteSettingController::class, 'aboutUs'])->name('about-us.index');
+    Route::get('how-to-play', [SiteSettingController::class, 'howToPlay'])->name('how-to-play.index');
+    Route::get('return-replacement-policy', [SiteSettingController::class, 'returnReplacementPolicy'])->name('return-replacement-policy.index');
     Route::get('about-novel', [SiteSettingController::class, 'aboutNovel'])->name('about-novel.index');
     Route::get('ios-and-android-app-link', [SiteSettingController::class, 'iosAndAndroidAppLink'])->name('ios-and-android-app-link.index');
     Route::get('media-department', [MediaDepartmentController::class, 'index'])->name('media-department.index')->middleware('permission:media-department.manage');
@@ -220,6 +222,8 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::put('privacy-policy', [SiteSettingController::class, 'updatePrivacyPolicy'])->name('privacy-policy.update');
             Route::put('terms-and-conditions', [SiteSettingController::class, 'updateTermsAndConditions'])->name('terms-and-conditions.update');
             Route::put('about-us', [SiteSettingController::class, 'updateAboutUs'])->name('about-us.update');
+            Route::put('how-to-play', [SiteSettingController::class, 'updateHowToPlay'])->name('how-to-play.update');
+            Route::put('return-replacement-policy', [SiteSettingController::class, 'updateReturnReplacementPolicy'])->name('return-replacement-policy.update');
             Route::put('about-novel', [SiteSettingController::class, 'updateAboutNovel'])->name('about-novel.update');
             Route::put('ios-and-android-app-link', [SiteSettingController::class, 'updateIosAndAndroidAppLink'])->name('ios-and-android-app-link.update');
         });

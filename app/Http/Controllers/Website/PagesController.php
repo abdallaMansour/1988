@@ -36,6 +36,20 @@ class PagesController extends Controller
         return view('website.pages.terms-and-conditions', compact('settings'));
     }
 
+    public function howToPlay()
+    {
+        $settings = SiteSetting::singleton();
+
+        return view('website.pages.how-to-play', compact('settings'));
+    }
+
+    public function returnReplacementPolicy()
+    {
+        $settings = SiteSetting::singleton();
+
+        return view('website.pages.return-replacement-policy', compact('settings'));
+    }
+
     public function faq()
     {
         $faqs = Faq::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
