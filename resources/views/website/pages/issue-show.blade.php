@@ -77,7 +77,7 @@
                 @if ($issue->details)
                 <div class="border rounded p-4 bg-label-secondary bg-opacity-25">
                     <h6 class="mb-3">التفاصيل</h6>
-                    <div class="text-body">{!! nl2br(e($issue->details)) !!}</div>
+                    <div class="text-body">{!! $issue->details !!}</div>
                 </div>
                 @endif
             </div>

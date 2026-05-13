@@ -1,5 +1,9 @@
 @extends('dashboard.layouts.master')
 
+@section('page-css')
+    @include('dashboard.partials.rich-text-editor-head')
+@endsection
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -11,7 +15,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('dashboard.issues.investigation-reports.update', [$issue, $investigationReport]) }}" method="POST">
+                <form id="investigation-report-edit-form" action="{{ route('dashboard.issues.investigation-reports.update', [$issue, $investigationReport]) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -39,10 +43,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="report" class="form-label">المحضر <span class="text-danger">*</span></label>
-                        <textarea class="form-control @error('report') is-invalid @enderror" id="report" name="report" rows="8" required>{{ old('report', $investigationReport->report) }}</textarea>
+                        <label class="form-label">المحضر <span class="text-danger">*</span></label>
+                        <div class="dashboard-rich-editor-wrap @error('report') is-invalid @enderror">
+                            <div id="investigation_report_editor"></div>
+                        </div>
+                        <input type="hidden" name="report" id="investigation_report_input" value="" required />
                         @error('report')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -51,4 +58,14 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('page-js')
+    @include('dashboard.partials.rich-text-editor-scripts', [
+        'editorId' => 'investigation_report_editor',
+        'hiddenInputId' => 'investigation_report_input',
+        'formId' => 'investigation-report-edit-form',
+        'initialHtml' => old('report', $investigationReport->report ?? ''),
+        'placeholder' => 'نص محضر التحقيق…',
+    ])
 @endsection

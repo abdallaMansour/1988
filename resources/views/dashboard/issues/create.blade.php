@@ -2,6 +2,7 @@
 
 @section('page-css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @include('dashboard.partials.rich-text-editor-head')
 @endsection
 
 @section('content')
@@ -15,7 +16,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('dashboard.issues.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="issue-create-form" action="{{ route('dashboard.issues.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-4">
@@ -117,10 +118,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="details" class="form-label">التفاصيل</label>
-                        <textarea class="form-control @error('details') is-invalid @enderror" id="details" name="details" rows="6">{{ old('details') }}</textarea>
+                        <label class="form-label">التفاصيل</label>
+                        <div class="dashboard-rich-editor-wrap @error('details') is-invalid @enderror">
+                            <div id="issue_details_editor"></div>
+                        </div>
+                        <input type="hidden" name="details" id="issue_details_input" value="" />
                         @error('details')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -163,4 +167,11 @@
             });
         })(window.jQuery);
     </script>
+    @include('dashboard.partials.rich-text-editor-scripts', [
+        'editorId' => 'issue_details_editor',
+        'hiddenInputId' => 'issue_details_input',
+        'formId' => 'issue-create-form',
+        'initialHtml' => old('details'),
+        'placeholder' => 'تفاصيل القضية…',
+    ])
 @endsection

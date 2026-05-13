@@ -39,7 +39,7 @@
                                 <td>{{ $testimony->id }}</td>
                                 <td><strong>{{ $testimony->title }}</strong></td>
                                 <td>{{ $testimony->witness?->title ?: '—' }}</td>
-                                <td>{{ Str::limit($testimony->report, 80) }}</td>
+                                <td>{{ Str::limit(strip_tags($testimony->report), 80) }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-sm btn-icon btn-text-secondary rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body p-6">
                         @if ($settings->terms_and_conditions)
-                            <div class="content-body" style="white-space: pre-line;">{!! nl2br(e($settings->terms_and_conditions)) !!}</div>
+                            <div class="content-body">{!! $settings->terms_and_conditions !!}</div>
                         @else
                             <p class="text-body-secondary text-center mb-0">لم يتم إضافة محتوى الشروط والأحكام بعد.</p>
                         @endif

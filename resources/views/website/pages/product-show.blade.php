@@ -82,7 +82,7 @@
                 @if ($product->details)
                 <div class="border rounded p-4 bg-label-secondary bg-opacity-25">
                     <h6 class="mb-3">التفاصيل</h6>
-                    <div class="text-body">{!! nl2br(e($product->details)) !!}</div>
+                    <div class="text-body">{!! $product->details !!}</div>
                 </div>
                 @endif
             </div>

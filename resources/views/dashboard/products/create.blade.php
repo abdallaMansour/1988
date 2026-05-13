@@ -1,5 +1,9 @@
 @extends('dashboard.layouts.master')
 
+@section('page-css')
+    @include('dashboard.partials.rich-text-editor-head')
+@endsection
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -11,7 +15,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('dashboard.products.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="product-create-form" action="{{ route('dashboard.products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row">
@@ -87,10 +91,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="details" class="form-label">التفاصيل</label>
-                        <textarea class="form-control @error('details') is-invalid @enderror" id="details" name="details" rows="6">{{ old('details') }}</textarea>
+                        <label class="form-label">التفاصيل</label>
+                        <div class="dashboard-rich-editor-wrap @error('details') is-invalid @enderror">
+                            <div id="product_details_editor"></div>
+                        </div>
+                        <input type="hidden" name="details" id="product_details_input" value="" />
                         @error('details')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -99,4 +106,14 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('page-js')
+    @include('dashboard.partials.rich-text-editor-scripts', [
+        'editorId' => 'product_details_editor',
+        'hiddenInputId' => 'product_details_input',
+        'formId' => 'product-create-form',
+        'initialHtml' => old('details'),
+        'placeholder' => 'تفاصيل المنتج…',
+    ])
 @endsection

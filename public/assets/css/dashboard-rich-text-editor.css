@@ -1,0 +1,13 @@
+.dashboard-rich-editor-wrap .ql-toolbar.ql-snow {
+    border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.dashboard-rich-editor-wrap .ql-container.ql-snow {
+    border-radius: 0 0 0.375rem 0.375rem;
+    min-height: 280px;
+}
+
+.dashboard-rich-editor-wrap.is-invalid .ql-toolbar.ql-snow,
+.dashboard-rich-editor-wrap.is-invalid .ql-container.ql-snow {
+    border-color: var(--bs-form-invalid-border-color);
+}

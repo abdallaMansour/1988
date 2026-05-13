@@ -37,7 +37,7 @@
                             <tr>
                                 <td>{{ $report->id }}</td>
                                 <td><strong>{{ $report->title }}</strong></td>
-                                <td>{{ Str::limit($report->report, 80) }}</td>
+                                <td>{{ Str::limit(strip_tags($report->report), 80) }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-sm btn-icon btn-text-secondary rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
