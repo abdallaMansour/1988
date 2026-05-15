@@ -21,6 +21,7 @@ class MediaDepartmentController extends Controller
             'login_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
             'register_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
             'dashboard_banner' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
+            'dashboard_banner_video' => ['nullable', 'file', 'mimes:mp4,webm', 'max:51200'],
         ]);
 
         $media = MediaDepartment::get();
@@ -37,7 +38,11 @@ class MediaDepartmentController extends Controller
             $media->clearMediaCollection('dashboard_banner');
             $media->addMediaFromRequest('dashboard_banner')->toMediaCollection('dashboard_banner');
         }
+        if ($request->hasFile('dashboard_banner_video')) {
+            $media->clearMediaCollection('dashboard_banner_video');
+            $media->addMediaFromRequest('dashboard_banner_video')->toMediaCollection('dashboard_banner_video');
+        }
 
-        return redirect()->route('dashboard.media-department.index')->with('success', __('تم تحديث الصور بنجاح.'));
+        return redirect()->route('dashboard.media-department.index')->with('success', __('تم تحديث الوسائط بنجاح.'));
     }
 }

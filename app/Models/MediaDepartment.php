@@ -25,6 +25,10 @@ class MediaDepartment extends Model implements HasMedia
         $this->addMediaCollection('dashboard_banner')
             ->singleFile()
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp']);
+
+        $this->addMediaCollection('dashboard_banner_video')
+            ->singleFile()
+            ->acceptsMimeTypes(['video/mp4', 'video/webm']);
     }
 
     /**

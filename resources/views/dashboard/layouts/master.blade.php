@@ -79,20 +79,56 @@
 
                 <ul class="menu-inner py-1">
 
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
                         <a href="{{ route('dashboard.index') }}" class="menu-link">
                             <i class="menu-icon icon-base bx bx-home-smile"></i>
                             <div data-i18n="Dashboard">لوحة التحكم</div>
                         </a>
                     </li>
 
+                    @if (auth('web')->check() && ! auth('admin')->check())
+                        <li class="menu-item {{ request()->routeIs('dashboard.user.crimes-file') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.user.crimes-file') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-folder-open"></i>
+                                <div>ملف الجرائم</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->routeIs('dashboard.user.purchases') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.user.purchases') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-receipt"></i>
+                                <div>قائمة المشتريات</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->routeIs('dashboard.user.friends') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.user.friends') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-group"></i>
+                                <div>اصدقائي</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->routeIs('dashboard.user.notifications') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.user.notifications') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-bell"></i>
+                                <div>الإشعارات</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->routeIs('dashboard.support-tickets.*') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.support-tickets.index') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-support"></i>
+                                <div>الدعم الفني</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->routeIs('dashboard.user.profile') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.user.profile') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-user-circle"></i>
+                                <div>الملف الشخصي</div>
+                            </a>
+                        </li>
+                    @endif
 
-                    <!-- Apps & Pages -->
+                    @auth('admin')
                     <li class="menu-header small">
                         <span class="menu-header-text" data-i18n="Settings">الإعدادات</span>
                     </li>
-                    {{-- عن الروايه --}}
-                    @auth('admin')
                         @if (auth('admin')->user()->canAccess('site-settings.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.about-novel.index') }}" class="menu-link">
@@ -226,12 +262,11 @@
                             </li>
                         @endif
                     @endauth
-                    
+
+                    @auth('admin')
                     <li class="menu-header small">
                         <span class="menu-header-text" data-i18n="Store">المتجر</span>
                     </li>
-                    {{-- المنتجات --}}
-                    @auth('admin')
                         @if (auth('admin')->user()->canAccess('products.view') || auth('admin')->user()->canAccess('products.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.products.index') }}" class="menu-link">
@@ -240,12 +275,10 @@
                                 </a>
                             </li>
                         @endif
-                    @endauth
 
                     <li class="menu-header small">
                         <span class="menu-header-text" data-i18n="Issues">الجرائم</span>
                     </li>
-                    @auth('admin')
                         @if (auth('admin')->user()->canAccess('issues.view') || auth('admin')->user()->canAccess('issues.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.issues.index') }}" class="menu-link">
@@ -254,19 +287,16 @@
                                 </a>
                             </li>
                         @endif
-                    @endauth
 
-                    {{-- Support Tickets (users + admins) --}}
                     <li class="menu-header small">
                         <span class="menu-header-text" data-i18n="Support">الدعم الفني</span>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->routeIs('dashboard.support-tickets.*') ? 'active' : '' }}">
                         <a href="{{ route('dashboard.support-tickets.index') }}" class="menu-link">
                             <i class="menu-icon icon-base bx bx-support"></i>
                             <div data-i18n="Support Tickets">تذاكر الدعم الفني</div>
                         </a>
                     </li>
-                    @auth('admin')
                         @if (auth('admin')->user()->canAccess('technical-support.view') || auth('admin')->user()->canAccess('technical-support.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.technical-support.index') }}" class="menu-link">
@@ -276,7 +306,6 @@
                             </li>
                         @endif
                     @endauth
-
 
                     @if (auth('admin')->check() && auth('admin')->user()->canAccessAdminManagement())
                         <li class="menu-header small">
@@ -799,15 +828,19 @@
 
     <!-- endbuild -->
 
+    @hasSection('load-dashboard-charts')
     <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    @endif
 
     <!-- Main JS -->
 
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Page JS -->
+    @hasSection('load-dashboard-charts')
     <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
+    @endif
 
     @yield('page-js')
 </body>

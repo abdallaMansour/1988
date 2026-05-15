@@ -64,9 +64,9 @@
                     <div class="card-body">
                         <h5 class="card-title mb-3">
                             <i class="bx bx-purchase-tag me-2"></i>
-                            الصورة الإعلانية
+                            صورة إعلان لوحة التحكم
                         </h5>
-                        <p class="text-body-secondary small mb-3">تظهر في الصفحة الرئيسية للوحة التحكم</p>
+                        <p class="text-body-secondary small mb-3">تظهر للمستخدمين عند عدم وجود فيديو</p>
                         @if ($media->hasMedia('dashboard_banner'))
                         <div class="mb-3">
                             <img src="{{ $media->getFirstMediaUrl('dashboard_banner') }}" alt="Banner" class="img-fluid rounded border" style="max-height: 150px; object-fit: contain;">
@@ -74,6 +74,28 @@
                         @endif
                         <input type="file" class="form-control @error('dashboard_banner') is-invalid @enderror" name="dashboard_banner" accept="image/*">
                         @error('dashboard_banner')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="bx bx-video me-2"></i>
+                            فيديو إعلان لوحة التحكم
+                        </h5>
+                        <p class="text-body-secondary small mb-3">يُعرض أولاً للمستخدمين إن وُجد (MP4 أو WebM)</p>
+                        @if ($media->hasMedia('dashboard_banner_video'))
+                        <div class="mb-3">
+                            <video class="w-100 rounded border" controls style="max-height: 150px;">
+                                <source src="{{ $media->getFirstMediaUrl('dashboard_banner_video') }}" type="{{ $media->getFirstMedia('dashboard_banner_video')?->mime_type }}">
+                            </video>
+                        </div>
+                        @endif
+                        <input type="file" class="form-control @error('dashboard_banner_video') is-invalid @enderror" name="dashboard_banner_video" accept="video/mp4,video/webm">
+                        @error('dashboard_banner_video')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

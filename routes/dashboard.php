@@ -27,6 +27,7 @@ use App\Http\Controllers\Dashboard\SiteSettingController;
 use App\Http\Controllers\Dashboard\SupportTicketController;
 use App\Http\Controllers\Dashboard\TechnicalSupportController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\UserDashboardController;
 use App\Http\Middleware\EnsureUserVerified;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,14 @@ Route::post('auth/logout', [AdminAuthController::class, 'logout'])->name('logout
 // Dashboard Pages (users + admins - users see limited menu)
 Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function () {
     Route::get('/', [PagesController::class, 'index'])->name('index');
+
+    Route::middleware('auth:web')->prefix('user')->name('user.')->group(function () {
+        Route::get('crimes-file', [UserDashboardController::class, 'crimesFile'])->name('crimes-file');
+        Route::get('purchases', [UserDashboardController::class, 'purchases'])->name('purchases');
+        Route::get('friends', [UserDashboardController::class, 'friends'])->name('friends');
+        Route::get('notifications', [UserDashboardController::class, 'notifications'])->name('notifications');
+        Route::get('profile', [UserDashboardController::class, 'profile'])->name('profile');
+    });
 
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
     Route::get('features', [FeatureController::class, 'index'])->name('features.index');
