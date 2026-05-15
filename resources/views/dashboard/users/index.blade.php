@@ -4,7 +4,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0">المشتركين</h4>
-        <p class="text-body-secondary mb-0">المستخدمون الذين أكملوا التحقق من البريد الإلكتروني والهاتف</p>
+        <p class="text-body-secondary mb-0">المشتركون المسجلون في المنصة</p>
     </div>
 
     @if(session('success'))
@@ -22,7 +22,7 @@
                         <th width="50">#</th>
                         <th>الاسم</th>
                         <th>البريد الإلكتروني</th>
-                        <th>الهاتف</th>
+                        <th>اسم المحقق</th>
                         <th>تاريخ انتهاء الباقة</th>
                         <th>الحالة</th>
                         <th>تاريخ التسجيل</th>
@@ -35,7 +35,7 @@
                         <td>{{ $user->id }}</td>
                         <td><strong>{{ $user->name }}</strong></td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->phone ?? '-' }}</td>
+                        <td>{{ $user->investigator_name }}</td>
                         <td>
                             @php $activeSub = $user->subscriptions->first(); @endphp
                             @if($activeSub)
@@ -89,7 +89,7 @@
                     @empty
                     <tr>
                         <td colspan="8" class="text-center py-5 text-body-secondary">
-                            لا يوجد مستخدمون أكملوا التحقق بعد.
+                            لا يوجد مشتركون بعد.
                         </td>
                     </tr>
                     @endforelse

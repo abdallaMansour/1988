@@ -21,10 +21,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'investigator_name',
         'email',
         'email_verified_at',
-        'phone',
-        'phone_verified_at',
         'password',
         'banned_at',
     ];
@@ -48,7 +47,6 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'phone_verified_at' => 'datetime',
             'banned_at' => 'datetime',
             'password' => 'hashed',
         ];
@@ -61,16 +59,7 @@ class User extends Authenticatable
 
     public function isFullyVerified(): bool
     {
-        return $this->email_verified_at !== null
-            && $this->phone !== null
-            && $this->phone_verified_at !== null;
-    }
-
-    public function scopeVerified($query)
-    {
-        return $query->whereNotNull('email_verified_at')
-            ->whereNotNull('phone')
-            ->whereNotNull('phone_verified_at');
+        return true;
     }
 
     public function subscriptions()

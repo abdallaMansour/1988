@@ -24,12 +24,12 @@ class ProfileController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email,' . Auth::guard('api')->user()->id],
-            'phone' => ['required', 'string', 'max:20'],
+            'investigator_name' => ['required', 'string', 'max:255', 'unique:users,investigator_name,' . Auth::guard('api')->user()->id],
             'password' => ['nullable', 'string', 'min:8'],
         ]);
 
         $user = Auth::guard('api')->user();
-        $user->update($request->only('name', 'email', 'phone'));
+        $user->update($request->only('name', 'email', 'investigator_name'));
 
         if ($request->has('password')) {
             $user->update(['password' => Hash::make($request->password)]);

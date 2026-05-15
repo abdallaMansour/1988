@@ -121,6 +121,20 @@
                 @enderror
               </div>
               <div class="mb-6 form-control-validation">
+                <label for="investigator_name" class="form-label">اسم المحقق (الاسم الذي يظهر للاعبين الآخرين لاحقاً)</label>
+                <input
+                  type="text"
+                  class="form-control @error('investigator_name') is-invalid @enderror"
+                  id="investigator_name"
+                  name="investigator_name"
+                  value="{{ old('investigator_name') }}"
+                  placeholder="أدخل اسم المحقق"
+                  required />
+                @error('investigator_name')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="mb-6 form-control-validation">
                 <label for="email" class="form-label">البريد الإلكتروني</label>
                 <input
                   type="email"

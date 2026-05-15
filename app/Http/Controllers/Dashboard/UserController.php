@@ -11,7 +11,6 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with(['subscriptions' => fn ($q) => $q->active()->latest('expires_at')])
-            ->verified()
             ->latest()
             ->paginate(15);
 
@@ -28,7 +27,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-            'phone' => ['nullable', 'string', 'max:20'],
+            'investigator_name' => ['required', 'string', 'max:255', 'unique:users,investigator_name,' . $user->id],
         ]);
 
         $user->update($validated);

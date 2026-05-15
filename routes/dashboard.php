@@ -29,7 +29,6 @@ use App\Http\Controllers\Dashboard\SubscriptionController as DashboardSubscripti
 use App\Http\Controllers\Dashboard\SupportTicketController;
 use App\Http\Controllers\Dashboard\TechnicalSupportController;
 use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\Dashboard\VerificationController;
 use App\Http\Middleware\EnsureUserVerified;
 use Illuminate\Support\Facades\Route;
 
@@ -44,13 +43,6 @@ Route::post('auth/logout', [AdminAuthController::class, 'logout'])->name('logout
 // Dashboard Pages (users + admins - users see limited menu)
 Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function () {
     Route::get('/', [PagesController::class, 'index'])->name('index');
-
-    // Verification (must be accessible before full verification)
-    Route::get('verification', [VerificationController::class, 'index'])->name('verification.index');
-    Route::post('verification/email/send', [VerificationController::class, 'sendEmailCode'])->name('verification.email.send');
-    Route::post('verification/email', [VerificationController::class, 'verifyEmail'])->name('verification.email.verify');
-    Route::post('verification/phone/send', [VerificationController::class, 'sendPhoneCode'])->name('verification.phone.send');
-    Route::post('verification/phone', [VerificationController::class, 'verifyPhone'])->name('verification.phone.verify');
 
     // Packages: index for both, create/store/edit/update/destroy for admin only
     Route::get('packages', [PackageController::class, 'index'])->name('packages.index');

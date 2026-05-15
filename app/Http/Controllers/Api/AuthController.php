@@ -37,17 +37,23 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'investigator_name' => ['required', 'string', 'max:255', 'unique:users,investigator_name'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'confirmed', 'min:8'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'investigator_name' => $request->investigator_name,
             'email' => $request->email,
+            'email_verified_at' => now(),
             'password' => Hash::make($request->password),
         ]);
 
-        return $this->sendResponse($user->createToken('auth-token')->plainTextToken);
+        return $this->sendResponse([
+            'user' => $user,
+            'token' => $user->createToken('auth-token')->plainTextToken,
+        ]);
     }
 
     public function logout()

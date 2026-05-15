@@ -24,14 +24,7 @@ class EnsureUserVerified
             $request->session()->regenerateToken();
             return redirect()->route('auth.login')->withErrors(['email' => 'حسابك محظور. يرجى التواصل مع الدعم الفني.']);
         }
-        if ($user->isFullyVerified()) {
-            return $next($request);
-        }
 
-        if ($request->routeIs('dashboard.verification.*')) {
-            return $next($request);
-        }
-
-        return redirect()->route('dashboard.verification.index');
+        return $next($request);
     }
 }
