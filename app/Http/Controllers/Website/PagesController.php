@@ -22,6 +22,20 @@ class PagesController extends Controller
         return view('website.landing-page', compact('packages', 'faqs', 'features'));
     }
 
+    public function aboutUs()
+    {
+        $settings = SiteSetting::singleton();
+
+        return view('website.pages.about-us', compact('settings'));
+    }
+
+    public function aboutNovel()
+    {
+        $settings = SiteSetting::singleton();
+
+        return view('website.pages.about-novel', compact('settings'));
+    }
+
     public function privacyPolicy()
     {
         $settings = SiteSetting::singleton();

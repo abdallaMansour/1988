@@ -5,6 +5,8 @@ use App\Http\Controllers\Website\RatingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'landingPage'])->name('landing-page');
+Route::get('/about-us', [PagesController::class, 'aboutUs'])->name('about-us');
+Route::get('/about-novel', [PagesController::class, 'aboutNovel'])->name('about-novel');
 Route::get('/privacy-policy', [PagesController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/terms-and-conditions', [PagesController::class, 'termsAndConditions'])->name('terms-and-conditions');
 Route::get('/how-to-play', [PagesController::class, 'howToPlay'])->name('how-to-play');
