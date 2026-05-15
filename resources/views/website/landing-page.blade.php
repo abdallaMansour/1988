@@ -65,6 +65,127 @@
         </section>
         <!-- Hero: End -->
 
+        {{-- الجرائم --}}
+        <section id="landingIssues" class="section-py landing-features">
+            <div class="container">
+                <div class="text-center mb-4">
+                    <span class="badge bg-label-primary">الجرائم</span>
+                </div>
+                <h4 class="text-center mb-1">
+                    <span class="position-relative fw-extrabold z-1">جرائمنا
+                        <img src="{{ asset('assets/img/front-pages/icons/section-title-icon.png') }}" alt="" class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                </h4>
+                <p class="text-center mb-8">
+                    اكتشف جرائم التحقيق المتاحة وابدأ مغامرتك.
+                </p>
+
+                <div class="row gy-6">
+                    @forelse ($landingIssues as $issue)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-none border">
+                                @if ($issue->hasMedia('main_image'))
+                                    <div class="ratio ratio-4x3 bg-label-secondary rounded-top overflow-hidden">
+                                        <img src="{{ $issue->getFirstMediaUrl('main_image') }}" alt="{{ $issue->title }}" class="object-fit-cover">
+                                    </div>
+                                @else
+                                    <div class="ratio ratio-4x3 bg-label-secondary rounded-top d-flex align-items-center justify-content-center">
+                                        <i class="bx bx-briefcase-alt-2 bx-lg text-secondary"></i>
+                                    </div>
+                                @endif
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-2">{{ $issue->title }}</h5>
+                                    @if ($issue->crime_type)
+                                        <p class="small mb-2"><span class="badge bg-label-warning">{{ $issue->crime_type }}</span></p>
+                                    @endif
+                                    <p class="mb-1 fw-semibold text-primary">{{ number_format((float) $issue->purchase_price_after_discount, 2) }} <span
+                                            class="small text-body-secondary fw-normal">ر.س</span></p>
+                                    <div class="d-flex flex-wrap gap-2 mt-auto align-self-start">
+                                        <a href="{{ route('website.issues.show', $issue) }}" class="btn btn-sm btn-primary">التفاصيل</a>
+                                        @include('website.partials.add-to-cart-form', ['type' => 'issue', 'id' => $issue->id])
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-5 text-body-secondary">
+                            لا توجد جرائم لعرضها حالياً.
+                        </div>
+                    @endforelse
+                </div>
+
+                @if ($landingIssues->isNotEmpty())
+                    <div class="text-center mt-8">
+                        <a href="{{ route('website.issues') }}" class="btn btn-label-primary">عرض كل الجرائم</a>
+                    </div>
+                @endif
+            </div>
+        </section>
+
+
+        {{-- المنتجات --}}
+        <section id="landingProducts" class="section-py bg-body landing-features">
+            <div class="container">
+                <div class="text-center mb-4">
+                    <span class="badge bg-label-primary">المتجر</span>
+                </div>
+                <h4 class="text-center mb-1">
+                    <span class="position-relative fw-extrabold z-1">منتجاتنا
+                        <img src="{{ asset('assets/img/front-pages/icons/section-title-icon.png') }}" alt="" class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                </h4>
+                <p class="text-center mb-8">
+                    تسوق منتجاتنا المرتبطة بعالم التحقيق.
+                </p>
+
+                <div class="row gy-6">
+                    @forelse ($landingProducts as $product)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-none border">
+                                @if ($product->hasMedia('images'))
+                                    <div class="ratio ratio-4x3 bg-label-secondary rounded-top overflow-hidden">
+                                        <img src="{{ $product->getFirstMediaUrl('images') }}" alt="{{ $product->name }}" class="object-fit-cover">
+                                    </div>
+                                @else
+                                    <div class="ratio ratio-4x3 bg-label-secondary rounded-top d-flex align-items-center justify-content-center">
+                                        <i class="bx bx-package bx-lg text-secondary"></i>
+                                    </div>
+                                @endif
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-2">{{ $product->name }}</h5>
+                                    <p class="mb-1 fw-semibold text-primary">{{ number_format((float) $product->sale_price_after_discount, 2) }} <span
+                                            class="small text-body-secondary fw-normal">ر.س</span></p>
+                                    <p class="small mb-3">
+                                        @if ($product->quantity > 0)
+                                            <span class="text-success">متوفر</span>
+                                        @else
+                                            <span class="text-danger">غير متوفر حالياً</span>
+                                        @endif
+                                    </p>
+                                    <div class="d-flex flex-wrap gap-2 mt-auto align-self-start">
+                                        <a href="{{ route('website.products.show', $product) }}" class="btn btn-sm btn-primary">التفاصيل</a>
+                                        @if ($product->quantity > 0)
+                                            @include('website.partials.add-to-cart-form', ['type' => 'product', 'id' => $product->id])
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-5 text-body-secondary">
+                            لا توجد منتجات لعرضها حالياً.
+                        </div>
+                    @endforelse
+                </div>
+
+                @if ($landingProducts->isNotEmpty())
+                    <div class="text-center mt-8">
+                        <a href="{{ route('website.products') }}" class="btn btn-label-primary">عرض كل المنتجات</a>
+                    </div>
+                @endif
+            </div>
+        </section>
+
         <!-- Useful features: Start -->
         <section id="landingFeatures" class="section-py landing-features">
             <div class="container">
@@ -675,6 +796,73 @@
         </section>
         <!-- CTA: End -->
 
+        {{-- قسم قالو عنا (التقييمات) --}}
+        <section id="landingTestimonials" class="section-py bg-body landing-reviews">
+            <div class="container">
+                <div class="text-center mb-4">
+                    <span class="badge bg-label-primary">قالوا عنا</span>
+                </div>
+                <h4 class="text-center mb-1">
+                    <span class="position-relative fw-extrabold z-1">تقييمات المستخدمين
+                        <img src="{{ asset('assets/img/front-pages/icons/section-title-icon.png') }}" alt="" class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                </h4>
+                <p class="text-center mb-8">
+                    آراء حقيقية من مستخدمين جربوا منصتنا.
+                </p>
+
+                @if ($landingRatings->isNotEmpty())
+                    @php
+                        $averageRating = round((float) $landingRatings->avg('rating'), 1);
+                        $totalRatings = $landingRatings->count();
+                    @endphp
+                    <div class="text-center mb-8">
+                        <div class="d-inline-flex flex-column align-items-center gap-2 px-5 py-4 rounded border bg-label-secondary bg-opacity-25">
+                            <span class="text-warning fs-4" aria-hidden="true">
+                                @for ($s = 1; $s <= 5; $s++)
+                                    <i class="bx {{ $s <= round($averageRating) ? 'bxs-star' : 'bx-star' }}"></i>
+                                @endfor
+                            </span>
+                            <span class="fw-bold fs-5">{{ $averageRating }} / 5</span>
+                            <span class="text-body-secondary small">بناءً على {{ $totalRatings }} تقييم</span>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="row gy-6">
+                    @forelse ($landingRatings as $rating)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-none border">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                                        <div>
+                                            <h6 class="mb-0 text-heading">{{ $rating->name }}</h6>
+                                            <small class="text-body-secondary">{{ $rating->created_at?->format('Y/m/d') }}</small>
+                                        </div>
+                                        <span class="text-warning flex-shrink-0" aria-label="تقييم {{ $rating->rating }} من 5">
+                                            @for ($s = 1; $s <= 5; $s++)
+                                                <i class="bx {{ $s <= $rating->rating ? 'bxs-star' : 'bx-star' }}"></i>
+                                            @endfor
+                                        </span>
+                                    </div>
+                                    <p class="mb-0 text-body-secondary flex-grow-1">{{ $rating->description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-8 text-body-secondary">
+                            لا توجد تقييمات بعد. كن أول من يشاركنا رأيه.
+                        </div>
+                    @endforelse
+                </div>
+
+                <div class="text-center mt-8 d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{{ route('website.ratings') }}" class="btn btn-label-primary">عرض كل التقييمات وإضافة تقييم</a>
+                </div>
+            </div>
+        </section>
+
+
         <!-- Contact Us: Start -->
         <section id="landingContact" class="section-py bg-body landing-contact">
             <div class="container">
@@ -739,20 +927,22 @@
                                     @csrf
                                     <div class="row g-4">
                                         @guest
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="contact-form-fullname">الاسم الكامل</label>
-                                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="contact-form-fullname" placeholder="الاسم الكامل" value="{{ old('name') }}" required />
-                                            @error('name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="contact-form-email">البريد الإلكتروني</label>
-                                            <input type="email" name="email" id="contact-form-email" class="form-control @error('email') is-invalid @enderror" placeholder="البريد الإلكتروني" value="{{ old('email') }}" required />
-                                            @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="contact-form-fullname">الاسم الكامل</label>
+                                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="contact-form-fullname" placeholder="الاسم الكامل"
+                                                    value="{{ old('name') }}" required />
+                                                @error('name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="contact-form-email">البريد الإلكتروني</label>
+                                                <input type="email" name="email" id="contact-form-email" class="form-control @error('email') is-invalid @enderror" placeholder="البريد الإلكتروني"
+                                                    value="{{ old('email') }}" required />
+                                                @error('email')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         @endguest
                                         <div class="col-12">
                                             <label class="form-label" for="contact-form-message">الرسالة</label>

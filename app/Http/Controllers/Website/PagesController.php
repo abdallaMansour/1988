@@ -9,6 +9,7 @@ use App\Models\Issue;
 use App\Models\Package;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\Rating;
 use App\Models\SiteSetting;
 
 class PagesController extends Controller
@@ -18,8 +19,21 @@ class PagesController extends Controller
         $packages = Package::orderBy('monthly_price', 'asc')->get();
         $faqs = Faq::orderBy('id', 'asc')->get();
         $features = Feature::orderBy('id', 'asc')->get();
+        $landingIssues = Issue::query()
+            ->where('is_active', true)
+            ->orderByDesc('id')
+            ->limit(6)
+            ->get();
+        $landingProducts = Product::query()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->limit(6)
+            ->get();
+        $landingRatings = Rating::query()
+            ->latest('created_at')
+            ->get();
 
-        return view('website.landing-page', compact('packages', 'faqs', 'features'));
+        return view('website.landing-page', compact('packages', 'faqs', 'features', 'landingIssues', 'landingProducts', 'landingRatings'));
     }
 
     public function aboutUs()
