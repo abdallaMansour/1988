@@ -20,10 +20,8 @@
                             <div class="card-body">
                                 <h5 class="card-title text-primary mb-3">مرحباً بك! 🎉</h5>
                                 <p class="mb-6">
-                                    مرحباً بك في لوحة التحكم.<br />يمكنك إدارة الباقات والإشتراكات من هنا.
+                                    مرحباً بك في لوحة التحكم.<br />يمكنك إدارة المحتوى والمستخدمين من القائمة الجانبية.
                                 </p>
-
-                                <a href="{{ route('dashboard.packages.index') }}" class="btn btn-sm btn-label-primary">عرض الباقات</a>
                             </div>
                         </div>
                         <div class="col-sm-5 text-center text-sm-left">

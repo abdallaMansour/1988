@@ -217,33 +217,11 @@
                             </li>
                         @endif
 
-                        {{-- Subscriptions --}}
-                        @if (auth('admin')->user()->canAccess('subscriptions.view') || auth('admin')->user()->canAccess('subscriptions.manage'))
-                            <li class="menu-header small">
-                                <span class="menu-header-text" data-i18n="Subscriptions">الإشتراكات</span>
-                            </li>
+                        @if (auth('admin')->user()->canAccess('users.view'))
                             <li class="menu-item">
-                                <a href="{{ route('dashboard.subscriptions.index') }}" class="menu-link">
-                                    <i class="menu-icon icon-base bx bx-credit-card"></i>
-                                    <div data-i18n="Subscriptions">الإشتراكات</div>
-                                </a>
-                            </li>
-                        @endif
-                        @auth('admin')
-                            @if (auth('admin')->user()->canAccess('users.view'))
-                                <li class="menu-item">
-                                    <a href="{{ route('dashboard.users.index') }}" class="menu-link">
-                                        <i class="menu-icon icon-base bx bx-user"></i>
-                                        <div data-i18n="Users">المشتركين</div>
-                                    </a>
-                                </li>
-                            @endif
-                        @endauth
-                        @if (auth('web')->check() || (auth('admin')->check() && auth('admin')->user()->hasPermission('packages.view')))
-                            <li class="menu-item">
-                                <a href="{{ route('dashboard.packages.index') }}" class="menu-link">
-                                    <i class="menu-icon icon-base bx bx-package"></i>
-                                    <div data-i18n="Packages">الباقات</div>
+                                <a href="{{ route('dashboard.users.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-user"></i>
+                                    <div data-i18n="Users">المشتركين</div>
                                 </a>
                             </li>
                         @endif

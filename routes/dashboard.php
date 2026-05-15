@@ -17,7 +17,6 @@ use App\Http\Controllers\Dashboard\IssueWitnessController;
 use App\Http\Controllers\Dashboard\IssueWitnessTestimonyController;
 use App\Http\Controllers\Dashboard\LanguageController;
 use App\Http\Controllers\Dashboard\MediaDepartmentController;
-use App\Http\Controllers\Dashboard\PackageController;
 use App\Http\Controllers\Dashboard\PagesController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\ProductController;
@@ -25,7 +24,6 @@ use App\Http\Controllers\Dashboard\RankController;
 use App\Http\Controllers\Dashboard\RatingController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SiteSettingController;
-use App\Http\Controllers\Dashboard\SubscriptionController as DashboardSubscriptionController;
 use App\Http\Controllers\Dashboard\SupportTicketController;
 use App\Http\Controllers\Dashboard\TechnicalSupportController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -44,8 +42,6 @@ Route::post('auth/logout', [AdminAuthController::class, 'logout'])->name('logout
 Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function () {
     Route::get('/', [PagesController::class, 'index'])->name('index');
 
-    // Packages: index for both, create/store/edit/update/destroy for admin only
-    Route::get('packages', [PackageController::class, 'index'])->name('packages.index');
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
     Route::get('features', [FeatureController::class, 'index'])->name('features.index');
     Route::get('availability-places', [AvailabilityPlaceController::class, 'index'])->name('availability-places.index');
@@ -84,18 +80,6 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
         Route::middleware('permission:users.ban')->group(function () {
             Route::post('users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
             Route::post('users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');
-        });
-
-        Route::middleware('permission:packages.create')->group(function () {
-            Route::get('packages/create', [PackageController::class, 'create'])->name('packages.create');
-            Route::post('packages', [PackageController::class, 'store'])->name('packages.store');
-        });
-        Route::middleware('permission:packages.edit')->group(function () {
-            Route::get('packages/{package}/edit', [PackageController::class, 'edit'])->name('packages.edit');
-            Route::put('packages/{package}', [PackageController::class, 'update'])->name('packages.update');
-        });
-        Route::middleware('permission:packages.delete')->group(function () {
-            Route::delete('packages/{package}', [PackageController::class, 'destroy'])->name('packages.destroy');
         });
 
         // Products CRUD (admin only)
@@ -146,11 +130,6 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::get('issues/{issue}/edit', [IssueController::class, 'edit'])->name('issues.edit');
             Route::put('issues/{issue}', [IssueController::class, 'update'])->name('issues.update');
             Route::delete('issues/{issue}', [IssueController::class, 'destroy'])->name('issues.destroy');
-        });
-
-        Route::middleware('permission:subscriptions.view')->group(function () {
-            Route::get('subscriptions', [DashboardSubscriptionController::class, 'index'])->name('subscriptions.index');
-            Route::get('subscriptions/{subscription}', [DashboardSubscriptionController::class, 'show'])->name('subscriptions.show');
         });
 
         // FAQ CRUD (admin only)

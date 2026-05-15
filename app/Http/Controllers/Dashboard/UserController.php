@@ -10,9 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with(['subscriptions' => fn ($q) => $q->active()->latest('expires_at')])
-            ->latest()
-            ->paginate(15);
+        $users = User::latest()->paginate(15);
 
         return view('dashboard.users.index', compact('users'));
     }

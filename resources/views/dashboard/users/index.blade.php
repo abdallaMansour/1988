@@ -23,7 +23,6 @@
                         <th>الاسم</th>
                         <th>البريد الإلكتروني</th>
                         <th>اسم المحقق</th>
-                        <th>تاريخ انتهاء الباقة</th>
                         <th>الحالة</th>
                         <th>تاريخ التسجيل</th>
                         <th width="140">الإجراءات</th>
@@ -36,14 +35,6 @@
                         <td><strong>{{ $user->name }}</strong></td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->investigator_name }}</td>
-                        <td>
-                            @php $activeSub = $user->subscriptions->first(); @endphp
-                            @if($activeSub)
-                                <span class="text-success">{{ $activeSub->expires_at->format('Y-m-d') }}</span>
-                            @else
-                                <span class="text-body-secondary">-</span>
-                            @endif
-                        </td>
                         <td>
                             @if($user->isBanned())
                             <span class="badge bg-danger">محظور</span>
@@ -88,7 +79,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="text-center py-5 text-body-secondary">
+                        <td colspan="7" class="text-center py-5 text-body-secondary">
                             لا يوجد مشتركون بعد.
                         </td>
                     </tr>
