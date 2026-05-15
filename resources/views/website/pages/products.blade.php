@@ -59,11 +59,12 @@
                         @endif
                         <div class="d-flex flex-wrap gap-2 mt-auto align-self-start">
                             <a href="{{ route('website.products.show', $product) }}" class="btn btn-sm btn-primary">التفاصيل</a>
-                            @auth('web')
-                                @if ($product->quantity > 0)
+                            @if ($product->quantity > 0)
+                                @include('website.partials.add-to-cart-form', ['type' => 'product', 'id' => $product->id])
+                                @auth('web')
                                 <a href="{{ route('website.checkout.product', $product) }}" class="btn btn-sm btn-label-primary">شراء</a>
-                                @endif
-                            @endauth
+                                @endauth
+                            @endif
                         </div>
                     </div>
                 </div>

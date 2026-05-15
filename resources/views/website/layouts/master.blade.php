@@ -278,8 +278,13 @@
                 <!-- Toolbar: Start -->
                 <ul class="navbar-nav flex-row align-items-center ms-auto">
                     <li class="nav-item me-2">
-                        <a href="{{ auth('web')->check() ? route('website.my-purchases') : route('website.products') }}" class="nav-link px-2" title="السلة">
+                        <a href="{{ route('website.cart.index') }}" class="nav-link px-2 position-relative" title="السلة">
                             <i class="icon-base bx bx-cart icon-lg"></i>
+                            @if (($cartCount ?? 0) > 0)
+                            <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count-badge" style="font-size: 0.65rem;">{{ $cartCount }}</span>
+                            @else
+                            <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count-badge d-none" style="font-size: 0.65rem;">0</span>
+                            @endif
                         </a>
                     </li>
                     @guest('web')
@@ -431,6 +436,7 @@
 
     <!-- Page JS -->
     <script src="{{ asset('assets/js/front-page-landing.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

@@ -69,14 +69,15 @@
                     @else
                     <span class="badge bg-label-danger">غير متوفر حالياً</span>
                     @endif
-                    @auth('web')
-                        @if ($product->quantity > 0)
+                    @if ($product->quantity > 0)
+                        @include('website.partials.add-to-cart-form', ['type' => 'product', 'id' => $product->id])
+                        @auth('web')
                         <a href="{{ route('website.checkout.product', $product) }}" class="btn btn-primary btn-sm">شراء عبر زينه</a>
                         <a href="{{ route('website.checkout.product.gift', $product) }}" class="btn btn-label-primary btn-sm"><i class="bx bx-gift me-1"></i> اهديه لصديقك</a>
-                        @endif
-                    @else
-                    <a href="{{ route('auth.login') }}" class="btn btn-outline-primary btn-sm">سجّل الدخول للشراء</a>
-                    @endauth
+                        @else
+                        <a href="{{ route('auth.login') }}" class="btn btn-outline-primary btn-sm">سجّل الدخول للشراء</a>
+                        @endauth
+                    @endif
                 </div>
 
                 @if ($product->details)

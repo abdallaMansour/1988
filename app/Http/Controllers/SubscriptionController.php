@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\Issue;
 use App\Models\Package;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Subscription;
+use App\Models\User;
+use App\Services\CartService;
 use App\Services\ZiinaService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
     public function __construct(
-        private ZiinaService $ziina
+        private ZiinaService $ziina,
+        private CartService $cart,
     ) {}
 
     public function checkoutPage(Package $package)
@@ -84,13 +89,19 @@ class SubscriptionController extends Controller
 
         $userId = auth()->id();
 
-        $purchase = Purchase::query()
+        $purchases = Purchase::query()
             ->where('ziina_payment_intent_id', $intentId)
             ->where('user_id', $userId)
-            ->first();
+            ->orderBy('id')
+            ->get();
 
-        if ($purchase) {
-            return $this->finishPurchase($purchase);
+        if ($purchases->isNotEmpty()) {
+            $first = $purchases->first();
+            if ($purchases->count() > 1 || $first->checkout_batch_id !== null) {
+                return $this->finishPurchaseBatch($purchases);
+            }
+
+            return $this->finishPurchase($first);
         }
 
         $subscription = Subscription::where('ziina_payment_intent_id', $intentId)
@@ -155,10 +166,11 @@ class SubscriptionController extends Controller
                     if (! $product || ! $product->is_active) {
                         throw new \RuntimeException('المنتج لم يعد متاحاً.');
                     }
-                    if ($product->quantity < 1) {
+                    $qty = max(1, (int) $purchase->quantity);
+                    if ($product->quantity < $qty) {
                         throw new \RuntimeException('نفد مخزون هذا المنتج.');
                     }
-                    $product->decrement('quantity');
+                    $product->decrement('quantity', $qty);
                 }
 
                 $purchase->update(['status' => 'paid']);
@@ -167,6 +179,89 @@ class SubscriptionController extends Controller
             return $this->redirectAfterPurchase($purchase)->with('success', 'تم الشراء بنجاح.');
         } catch (\RuntimeException $e) {
             return redirect()->route('website.landing-page')->with('error', $e->getMessage());
+        } catch (\Exception $e) {
+            report($e);
+
+            return redirect()->route('website.landing-page')->with('error', __('Unable to verify payment.'));
+        }
+    }
+
+    /**
+     * @param  Collection<int, Purchase>  $purchases
+     */
+    private function finishPurchaseBatch(Collection $purchases): RedirectResponse
+    {
+        $first = $purchases->first();
+
+        if ($purchases->every(fn (Purchase $p) => $p->status === 'paid')) {
+            $this->cart->clear();
+
+            return $this->redirectAfterPurchase($first)->with('success', 'تم تأكيد الشراء مسبقاً.');
+        }
+
+        try {
+            $intent = $this->ziina->getPaymentIntent($first->ziina_payment_intent_id);
+
+            if (($intent['status'] ?? '') !== 'completed') {
+                return redirect()->route('website.cart.index')->with('error', __('Payment is not completed yet.'));
+            }
+
+            DB::transaction(function () use ($purchases, $first) {
+                $user = User::query()->whereKey($first->user_id)->lockForUpdate()->first();
+
+                if ($first->coupon_id) {
+                    $coupon = Coupon::query()->whereKey($first->coupon_id)->lockForUpdate()->first();
+                    if (! $coupon || ! $coupon->isCurrentlyActive()) {
+                        throw new \RuntimeException('لم يعد الكوبون صالحاً لهذا الشراء.');
+                    }
+                    if (! $coupon->hasRemainingGlobalUses()) {
+                        throw new \RuntimeException('لم يعد بالإمكان استخدام هذا الكوبون (تم استنفاد الاستخدامات).');
+                    }
+                    if (! $coupon->hasRemainingUsesForUser((int) $first->user_id)) {
+                        throw new \RuntimeException('لم يعد بالإمكان استخدام هذا الكوبون لحسابك.');
+                    }
+                }
+
+                foreach ($purchases as $purchase) {
+                    if ($purchase->status === 'paid') {
+                        continue;
+                    }
+
+                    $purchase->load('purchasable');
+                    $item = $purchase->purchasable;
+
+                    if ($first->coupon_id && $item) {
+                        $coupon = Coupon::query()->whereKey($first->coupon_id)->first();
+                        if ($coupon && $purchase->discount_amount > 0 && ! $coupon->appliesToPurchasable($item)) {
+                            throw new \RuntimeException('لم يعد الكوبون صالحاً لأحد عناصر السلة.');
+                        }
+                    }
+
+                    if ($item instanceof Product) {
+                        $product = Product::query()->whereKey($item->getKey())->lockForUpdate()->first();
+                        if (! $product || ! $product->is_active) {
+                            throw new \RuntimeException('أحد المنتجات في السلة لم يعد متاحاً.');
+                        }
+                        $qty = max(1, (int) $purchase->quantity);
+                        if ($product->quantity < $qty) {
+                            throw new \RuntimeException('نفد مخزون المنتج «'.$product->name.'».');
+                        }
+                        $product->decrement('quantity', $qty);
+                    }
+
+                    if ($item instanceof Issue && $user && $user->hasPaidPurchaseFor($item)) {
+                        throw new \RuntimeException('لقد اشتريت جريمة «'.$item->title.'» مسبقاً.');
+                    }
+
+                    $purchase->update(['status' => 'paid']);
+                }
+            });
+
+            $this->cart->clear();
+
+            return $this->redirectAfterPurchase($first)->with('success', 'تم الشراء بنجاح.');
+        } catch (\RuntimeException $e) {
+            return redirect()->route('website.cart.index')->with('error', $e->getMessage());
         } catch (\Exception $e) {
             report($e);
 

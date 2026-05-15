@@ -67,6 +67,7 @@
                         @endif
                         <div class="d-flex flex-wrap gap-2 mt-auto align-self-start">
                             <a href="{{ route('website.issues.show', $issue) }}" class="btn btn-sm btn-primary">التفاصيل</a>
+                            @include('website.partials.add-to-cart-form', ['type' => 'issue', 'id' => $issue->id])
                             @auth('web')
                             <a href="{{ route('website.checkout.issue', $issue) }}" class="btn btn-sm btn-label-primary">شراء</a>
                             @endauth

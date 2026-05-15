@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\StoreCheckoutController;
 use App\Http\Controllers\SubscriptionController;
@@ -15,7 +16,14 @@ Route::post('/contact', [ContactController::class, 'store'])->name('website.cont
 
 require_once __DIR__.'/auth.php';
 
+Route::get('/cart', [CartController::class, 'index'])->name('website.cart.index');
+Route::post('/cart', [CartController::class, 'store'])->name('website.cart.store');
+Route::patch('/cart/{key}', [CartController::class, 'update'])->name('website.cart.update')->where('key', '[a-z]+-\d+');
+Route::delete('/cart/{key}', [CartController::class, 'destroy'])->name('website.cart.destroy')->where('key', '[a-z]+-\d+');
+
 Route::middleware('auth:web')->group(function () {
+    Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->name('website.cart.coupon');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('website.cart.checkout');
     Route::get('/subscribe/{package}', [SubscriptionController::class, 'checkoutPage'])->name('subscribe.page');
     Route::post('/subscribe/{package}', [SubscriptionController::class, 'checkout'])->name('subscribe');
     Route::get('/payments/success', [SubscriptionController::class, 'success'])->name('payments.success');

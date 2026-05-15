@@ -10,9 +10,11 @@ class Purchase extends Model
 {
     protected $fillable = [
         'user_id',
+        'checkout_batch_id',
         'coupon_id',
         'purchasable_type',
         'purchasable_id',
+        'quantity',
         'amount',
         'currency',
         'subtotal',
@@ -31,6 +33,7 @@ class Purchase extends Model
             'amount' => 'decimal:2',
             'subtotal' => 'decimal:2',
             'discount_amount' => 'decimal:2',
+            'quantity' => 'integer',
         ];
     }
 
