@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaDepartment extends Model implements HasMedia
 {
@@ -28,7 +29,22 @@ class MediaDepartment extends Model implements HasMedia
 
         $this->addMediaCollection('dashboard_banner_video')
             ->singleFile()
-            ->acceptsMimeTypes(['video/mp4', 'video/webm']);
+            ->acceptsMimeTypes([
+                'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp',
+                'video/mp4', 'video/webm',
+            ]);
+    }
+
+    public function dashboardPromoMedia(): ?Media
+    {
+        return $this->getFirstMedia('dashboard_banner_video');
+    }
+
+    public function dashboardPromoIsVideo(): bool
+    {
+        $media = $this->dashboardPromoMedia();
+
+        return $media !== null && str_starts_with((string) $media->mime_type, 'video/');
     }
 
     /**

@@ -21,7 +21,9 @@ class MediaDepartmentController extends Controller
             'login_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
             'register_image' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
             'dashboard_banner' => ['nullable', 'image', 'mimes:jpeg,png,gif,svg,webp'],
-            'dashboard_banner_video' => ['nullable', 'file', 'mimes:mp4,webm', 'max:51200'],
+            'remove_dashboard_banner' => ['sometimes', 'boolean'],
+            'dashboard_banner_video' => ['nullable', 'file', 'mimes:jpeg,png,gif,svg,webp,mp4,webm', 'max:51200'],
+            'remove_dashboard_banner_video' => ['sometimes', 'boolean'],
         ]);
 
         $media = MediaDepartment::get();
@@ -34,9 +36,15 @@ class MediaDepartmentController extends Controller
             $media->clearMediaCollection('register_image');
             $media->addMediaFromRequest('register_image')->toMediaCollection('register_image');
         }
+        if ($request->boolean('remove_dashboard_banner')) {
+            $media->clearMediaCollection('dashboard_banner');
+        }
         if ($request->hasFile('dashboard_banner')) {
             $media->clearMediaCollection('dashboard_banner');
             $media->addMediaFromRequest('dashboard_banner')->toMediaCollection('dashboard_banner');
+        }
+        if ($request->boolean('remove_dashboard_banner_video')) {
+            $media->clearMediaCollection('dashboard_banner_video');
         }
         if ($request->hasFile('dashboard_banner_video')) {
             $media->clearMediaCollection('dashboard_banner_video');

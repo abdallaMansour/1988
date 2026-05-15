@@ -2,6 +2,12 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    @if ($media->hasMedia('dashboard_banner'))
+    <div class="mb-6">
+        <img src="{{ $media->getFirstMediaUrl('dashboard_banner') }}" alt="إعلان" class="w-100 rounded" style="max-height: 200px; object-fit: cover;">
+    </div>
+    @endif
+
     <div class="row">
         <div class="col-xxl-8 mb-6 order-0">
             <div class="card">
@@ -57,26 +63,24 @@
             </div>
         </div>
 
+        @if ($media->hasMedia('dashboard_banner_video'))
         <div class="col-12 col-xxl-8 order-2 order-md-3 order-xxl-2 mb-6">
             <div class="card overflow-hidden">
                 <div class="card-header">
                     <h5 class="card-title mb-0">إعلان</h5>
                 </div>
                 <div class="card-body p-0">
-                    @if ($media->hasMedia('dashboard_banner_video'))
+                    @if ($media->dashboardPromoIsVideo())
                         <video class="w-100" controls style="max-height: 360px; object-fit: cover;">
-                            <source src="{{ $media->getFirstMediaUrl('dashboard_banner_video') }}" type="{{ $media->getFirstMedia('dashboard_banner_video')?->mime_type }}">
+                            <source src="{{ $media->getFirstMediaUrl('dashboard_banner_video') }}" type="{{ $media->dashboardPromoMedia()?->mime_type }}">
                         </video>
-                    @elseif ($media->hasMedia('dashboard_banner'))
-                        <img src="{{ $media->getFirstMediaUrl('dashboard_banner') }}" alt="إعلان" class="w-100" style="max-height: 360px; object-fit: cover;">
                     @else
-                        <div class="text-center text-body-secondary py-6 px-4">
-                            لا يوجد إعلان حالياً.
-                        </div>
+                        <img src="{{ $media->getFirstMediaUrl('dashboard_banner_video') }}" alt="إعلان" class="w-100" style="max-height: 360px; object-fit: cover;">
                     @endif
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="col-12 col-md-8 col-lg-12 col-xxl-4 order-3 order-md-2">
             <div class="row">

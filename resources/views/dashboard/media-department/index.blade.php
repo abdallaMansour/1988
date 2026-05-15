@@ -64,12 +64,16 @@
                     <div class="card-body">
                         <h5 class="card-title mb-3">
                             <i class="bx bx-purchase-tag me-2"></i>
-                            صورة إعلان لوحة التحكم
+                            بانر أعلى لوحة التحكم
                         </h5>
-                        <p class="text-body-secondary small mb-3">تظهر للمستخدمين عند عدم وجود فيديو</p>
+                        <p class="text-body-secondary small mb-3">صورة تظهر في أعلى صفحة لوحة تحكم المستخدم (صورة فقط)</p>
                         @if ($media->hasMedia('dashboard_banner'))
                         <div class="mb-3">
                             <img src="{{ $media->getFirstMediaUrl('dashboard_banner') }}" alt="Banner" class="img-fluid rounded border" style="max-height: 150px; object-fit: contain;">
+                            <div class="form-check mt-2">
+                                <input type="checkbox" class="form-check-input" id="remove_dashboard_banner" name="remove_dashboard_banner" value="1" @checked(old('remove_dashboard_banner'))>
+                                <label class="form-check-label" for="remove_dashboard_banner">إزالة البانر الحالي</label>
+                            </div>
                         </div>
                         @endif
                         <input type="file" class="form-control @error('dashboard_banner') is-invalid @enderror" name="dashboard_banner" accept="image/*">
@@ -83,18 +87,26 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title mb-3">
-                            <i class="bx bx-video me-2"></i>
-                            فيديو إعلان لوحة التحكم
+                            <i class="bx bx-image-alt me-2"></i>
+                            إعلان (صورة أو فيديو)
                         </h5>
-                        <p class="text-body-secondary small mb-3">يُعرض أولاً للمستخدمين إن وُجد (MP4 أو WebM)</p>
+                        <p class="text-body-secondary small mb-3">يُعرض في بطاقة «إعلان» بلوحة تحكم المستخدم (صورة أو MP4/WebM)</p>
                         @if ($media->hasMedia('dashboard_banner_video'))
                         <div class="mb-3">
+                            @if ($media->dashboardPromoIsVideo())
                             <video class="w-100 rounded border" controls style="max-height: 150px;">
-                                <source src="{{ $media->getFirstMediaUrl('dashboard_banner_video') }}" type="{{ $media->getFirstMedia('dashboard_banner_video')?->mime_type }}">
+                                <source src="{{ $media->getFirstMediaUrl('dashboard_banner_video') }}" type="{{ $media->dashboardPromoMedia()?->mime_type }}">
                             </video>
+                            @else
+                            <img src="{{ $media->getFirstMediaUrl('dashboard_banner_video') }}" alt="إعلان" class="img-fluid rounded border" style="max-height: 150px; object-fit: contain;">
+                            @endif
+                            <div class="form-check mt-2">
+                                <input type="checkbox" class="form-check-input" id="remove_dashboard_banner_video" name="remove_dashboard_banner_video" value="1" @checked(old('remove_dashboard_banner_video'))>
+                                <label class="form-check-label" for="remove_dashboard_banner_video">إزالة الإعلان الحالي</label>
+                            </div>
                         </div>
                         @endif
-                        <input type="file" class="form-control @error('dashboard_banner_video') is-invalid @enderror" name="dashboard_banner_video" accept="video/mp4,video/webm">
+                        <input type="file" class="form-control @error('dashboard_banner_video') is-invalid @enderror" name="dashboard_banner_video" accept="image/*,video/mp4,video/webm">
                         @error('dashboard_banner_video')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
