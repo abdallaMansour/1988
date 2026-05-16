@@ -36,6 +36,8 @@ return [
                 'users.ban' => 'حظر المستخدم',
                 'profile-avatars.view' => 'عرض صور البروفايل',
                 'profile-avatars.manage' => 'إدارة صور البروفايل',
+                'notifications.view' => 'عرض الإشعارات',
+                'notifications.manage' => 'إرسال وإدارة الإشعارات',
             ],
         ],
         'packages' => [

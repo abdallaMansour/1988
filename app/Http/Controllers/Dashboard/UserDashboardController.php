@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProfileAvatar;
 use App\Models\Purchase;
 use App\Models\User;
+use App\Models\UserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -50,7 +51,50 @@ class UserDashboardController extends Controller
 
     public function notifications()
     {
-        return $this->placeholder('الإشعارات');
+        $user = auth()->user();
+
+        $notifications = UserNotification::query()
+            ->visibleTo($user)
+            ->withExists(['reads as read_by_user' => fn ($q) => $q->where('user_id', $user->id)])
+            ->latest()
+            ->paginate(15);
+
+        $unreadCount = UserNotification::query()
+            ->visibleTo($user)
+            ->whereDoesntHave('reads', fn ($q) => $q->where('user_id', $user->id))
+            ->count();
+
+        return view('dashboard.user.notifications', compact('notifications', 'unreadCount'));
+    }
+
+    public function showNotification(UserNotification $userNotification)
+    {
+        $user = auth()->user();
+        abort_unless($userNotification->isVisibleTo($user), 404);
+
+        $userNotification->markAsReadBy($user);
+
+        return view('dashboard.user.notification-show', [
+            'notification' => $userNotification,
+        ]);
+    }
+
+    public function markAllNotificationsRead()
+    {
+        $user = auth()->user();
+
+        $unread = UserNotification::query()
+            ->visibleTo($user)
+            ->whereDoesntHave('reads', fn ($q) => $q->where('user_id', $user->id))
+            ->get();
+
+        foreach ($unread as $notification) {
+            $notification->markAsReadBy($user);
+        }
+
+        return redirect()
+            ->route('dashboard.user.notifications')
+            ->with('success', 'تم تعليم جميع الإشعارات كمقروءة.');
     }
 
     public function profile()

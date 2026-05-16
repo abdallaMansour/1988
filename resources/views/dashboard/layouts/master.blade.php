@@ -268,6 +268,15 @@
                             </li>
                         @endif
 
+                        @if (auth('admin')->user()->canAccess('notifications.view') || auth('admin')->user()->canAccess('notifications.manage'))
+                            <li class="menu-item {{ request()->routeIs('dashboard.user-notifications.*') ? 'active' : '' }}">
+                                <a href="{{ route('dashboard.user-notifications.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-bell"></i>
+                                    <div data-i18n="Notifications">الإشعارات</div>
+                                </a>
+                            </li>
+                        @endif
+
                         @if (auth('admin')->user()->canAccess('profile-avatars.view') || auth('admin')->user()->canAccess('profile-avatars.manage'))
                             <li class="menu-item {{ request()->routeIs('dashboard.profile-avatars.*') ? 'active' : '' }}">
                                 <a href="{{ route('dashboard.profile-avatars.index') }}" class="menu-link">

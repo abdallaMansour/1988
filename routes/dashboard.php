@@ -30,6 +30,7 @@ use App\Http\Controllers\Dashboard\SupportTicketController;
 use App\Http\Controllers\Dashboard\TechnicalSupportController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\UserDashboardController;
+use App\Http\Controllers\Dashboard\UserNotificationController;
 use App\Http\Middleware\EnsureUserVerified;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,8 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
         Route::post('friendships/{friendship}/cancel', [FriendshipController::class, 'cancel'])->name('friendships.cancel');
         Route::delete('friendships/{user}/unfriend', [FriendshipController::class, 'unfriend'])->name('friendships.unfriend');
         Route::get('notifications', [UserDashboardController::class, 'notifications'])->name('notifications');
+        Route::get('notifications/{userNotification}', [UserDashboardController::class, 'showNotification'])->name('notifications.show');
+        Route::post('notifications/mark-all-read', [UserDashboardController::class, 'markAllNotificationsRead'])->name('notifications.mark-all-read');
         Route::get('profile', [UserDashboardController::class, 'profile'])->name('profile');
         Route::put('profile', [UserDashboardController::class, 'updateProfile'])->name('profile.update');
     });
@@ -99,6 +102,13 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::post('users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
             Route::post('users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');
         });
+
+        // User notifications (admin only)
+        Route::get('user-notifications', [UserNotificationController::class, 'index'])->name('user-notifications.index');
+        Route::get('user-notifications/create', [UserNotificationController::class, 'create'])->name('user-notifications.create');
+        Route::post('user-notifications', [UserNotificationController::class, 'store'])->name('user-notifications.store');
+        Route::get('user-notifications/{user_notification}', [UserNotificationController::class, 'show'])->name('user-notifications.show');
+        Route::delete('user-notifications/{user_notification}', [UserNotificationController::class, 'destroy'])->name('user-notifications.destroy');
 
         // Profile avatars CRUD (admin only — الصلاحيات داخل المتحكم)
         Route::get('profile-avatars', [ProfileAvatarController::class, 'index'])->name('profile-avatars.index');
