@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\CartService;
+use App\View\Composers\DashboardLayoutComposer;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -27,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('website.layouts.master', function ($view) {
             $view->with('cartCount', app(CartService::class)->count());
         });
+
+        View::composer('dashboard.layouts.master', DashboardLayoutComposer::class);
     }
 }
