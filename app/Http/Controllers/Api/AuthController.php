@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProfileAvatar;
 use App\Models\User;
 use App\Notifications\ResetPasswordCodeNotification;
 use Illuminate\Http\Request;
@@ -35,19 +36,22 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'investigator_name' => ['required', 'string', 'max:255', 'unique:users,investigator_name'],
+            'country' => ['required', 'string', 'size:2', 'regex:/^[A-Za-z]{2}$/'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'confirmed', 'min:8'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'investigator_name' => $request->investigator_name,
-            'email' => $request->email,
+            'name' => $validated['name'],
+            'investigator_name' => $validated['investigator_name'],
+            'country' => strtoupper($validated['country']),
+            'profile_avatar_id' => ProfileAvatar::randomId(),
+            'email' => $validated['email'],
             'email_verified_at' => now(),
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($validated['password']),
         ]);
 
         return $this->sendResponse([

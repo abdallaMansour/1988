@@ -48,6 +48,10 @@
     <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+      #country_select2 + .select2-container { width: 100% !important; }
+    </style>
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
@@ -134,6 +138,7 @@
                   <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
               </div>
+              @include('dashboard.availability-places.partials.country-select', ['countryValue' => old('country')])
               <div class="mb-6 form-control-validation">
                 <label for="email" class="form-label">البريد الإلكتروني</label>
                 <input
@@ -250,5 +255,6 @@
 
     <!-- Page JS -->
     <script src="{{ asset('assets/js/') }}pages-auth.js"></script>
+    @include('dashboard.availability-places.partials.country-select-init', ['countryValue' => old('country')])
   </body>
 </html>

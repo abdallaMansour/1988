@@ -22,4 +22,11 @@ class ProfileAvatar extends Model implements HasMedia
     {
         return $this->hasMany(User::class);
     }
+
+    public static function randomId(): ?int
+    {
+        $id = static::query()->inRandomOrder()->value('id');
+
+        return $id !== null ? (int) $id : null;
+    }
 }
