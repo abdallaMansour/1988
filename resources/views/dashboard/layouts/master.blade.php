@@ -99,6 +99,12 @@
                                 <div>قائمة المشتريات</div>
                             </a>
                         </li>
+                        <li class="menu-item {{ request()->routeIs('dashboard.user.detectives-guild') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.user.detectives-guild') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-id-card"></i>
+                                <div>نقابة المحققين</div>
+                            </a>
+                        </li>
                         <li class="menu-item {{ request()->routeIs('dashboard.user.friends') ? 'active' : '' }}">
                             <a href="{{ route('dashboard.user.friends') }}" class="menu-link">
                                 <i class="menu-icon icon-base bx bx-group"></i>

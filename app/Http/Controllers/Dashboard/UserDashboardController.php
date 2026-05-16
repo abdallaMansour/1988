@@ -35,11 +35,6 @@ class UserDashboardController extends Controller
         return view('dashboard.user.purchases', compact('purchases'));
     }
 
-    public function friends()
-    {
-        return $this->placeholder('اصدقائي');
-    }
-
     public function notifications()
     {
         return $this->placeholder('الإشعارات');

@@ -78,6 +78,46 @@ class User extends Authenticatable
         return $this->belongsTo(ProfileAvatar::class);
     }
 
+    public function friendshipsSent()
+    {
+        return $this->hasMany(Friendship::class, 'requester_id');
+    }
+
+    public function friendshipsReceived()
+    {
+        return $this->hasMany(Friendship::class, 'addressee_id');
+    }
+
+    public function friendIds(): array
+    {
+        $sent = Friendship::query()
+            ->accepted()
+            ->where('requester_id', $this->id)
+            ->pluck('addressee_id');
+
+        $received = Friendship::query()
+            ->accepted()
+            ->where('addressee_id', $this->id)
+            ->pluck('requester_id');
+
+        return $sent->merge($received)->unique()->values()->all();
+    }
+
+    public function friendshipWith(User $other): ?Friendship
+    {
+        return Friendship::query()
+            ->betweenUsers($this->id, $other->id)
+            ->first();
+    }
+
+    public function isFriendWith(User $other): bool
+    {
+        return Friendship::query()
+            ->accepted()
+            ->betweenUsers($this->id, $other->id)
+            ->exists();
+    }
+
     public function avatarUrl(): ?string
     {
         return $this->profileAvatar?->getFirstMediaUrl('image') ?: null;

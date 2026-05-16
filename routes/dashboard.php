@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\AvailabilityPlaceController;
 use App\Http\Controllers\Dashboard\CouponController;
 use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\FeatureController;
+use App\Http\Controllers\Dashboard\FriendshipController;
 use App\Http\Controllers\Dashboard\IssueController;
 use App\Http\Controllers\Dashboard\IssueEvidenceController;
 use App\Http\Controllers\Dashboard\IssueForensicReportController;
@@ -47,7 +48,13 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
     Route::middleware('auth:web')->prefix('user')->name('user.')->group(function () {
         Route::get('crimes-file', [UserDashboardController::class, 'crimesFile'])->name('crimes-file');
         Route::get('purchases', [UserDashboardController::class, 'purchases'])->name('purchases');
-        Route::get('friends', [UserDashboardController::class, 'friends'])->name('friends');
+        Route::get('detectives-guild', [FriendshipController::class, 'guild'])->name('detectives-guild');
+        Route::get('friends', [FriendshipController::class, 'friends'])->name('friends');
+        Route::post('friendships/{user}/send', [FriendshipController::class, 'sendRequest'])->name('friendships.send');
+        Route::post('friendships/{friendship}/accept', [FriendshipController::class, 'accept'])->name('friendships.accept');
+        Route::post('friendships/{friendship}/reject', [FriendshipController::class, 'reject'])->name('friendships.reject');
+        Route::post('friendships/{friendship}/cancel', [FriendshipController::class, 'cancel'])->name('friendships.cancel');
+        Route::delete('friendships/{user}/unfriend', [FriendshipController::class, 'unfriend'])->name('friendships.unfriend');
         Route::get('notifications', [UserDashboardController::class, 'notifications'])->name('notifications');
         Route::get('profile', [UserDashboardController::class, 'profile'])->name('profile');
         Route::put('profile', [UserDashboardController::class, 'updateProfile'])->name('profile.update');
