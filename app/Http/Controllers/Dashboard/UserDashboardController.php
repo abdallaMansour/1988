@@ -16,7 +16,19 @@ class UserDashboardController extends Controller
 {
     public function crimesFile()
     {
-        return $this->placeholder('ملف الجرائم');
+        $purchases = Purchase::query()
+            ->where('user_id', auth()->id())
+            ->where('status', 'paid')
+            ->where('purchasable_type', Issue::class)
+            ->where(function ($q) {
+                $q->whereNull('gift_claim_token')
+                    ->orWhereNotNull('gift_from_user_id');
+            })
+            ->with(['purchasable.media', 'giftFrom'])
+            ->latest()
+            ->paginate(12);
+
+        return view('dashboard.user.crimes-file', compact('purchases'));
     }
 
     public function purchases()
