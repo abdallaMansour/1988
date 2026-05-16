@@ -11,16 +11,8 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('dashboard.ranks.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('dashboard.ranks.store') }}" method="POST">
                     @csrf
-
-                    <div class="mb-4">
-                        <label for="image" class="form-label">صورة المستوى</label>
-                        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
-                        @error('image')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
 
                     <div class="mb-4">
                         <label for="name" class="form-label">الاسم <span class="text-danger">*</span></label>
@@ -30,21 +22,13 @@
                         @enderror
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            <label for="solved_issues_from" class="form-label">عدد الجرائم المحلولة — من <span class="text-danger">*</span></label>
-                            <input type="number" min="0" step="1" class="form-control @error('solved_issues_from') is-invalid @enderror" id="solved_issues_from" name="solved_issues_from" value="{{ old('solved_issues_from', 0) }}" required>
-                            @error('solved_issues_from')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <label for="solved_issues_to" class="form-label">إلى <span class="text-danger">*</span></label>
-                            <input type="number" min="0" step="1" class="form-control @error('solved_issues_to') is-invalid @enderror" id="solved_issues_to" name="solved_issues_to" value="{{ old('solved_issues_to', 0) }}" required>
-                            @error('solved_issues_to')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="mb-4">
+                        <label for="solved_issues_from" class="form-label">عدد الجرائم المحلولة — من <span class="text-danger">*</span></label>
+                        <input type="number" min="0" step="1" class="form-control @error('solved_issues_from') is-invalid @enderror" id="solved_issues_from" name="solved_issues_from" value="{{ old('solved_issues_from', $suggestedFrom ?? 0) }}" required>
+                        <div class="form-text">يُحدَّث نهاية الرانك السابق تلقائياً إلى (البداية − 1).</div>
+                        @error('solved_issues_from')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-4">

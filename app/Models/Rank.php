@@ -10,6 +10,8 @@ class Rank extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
+    public const OPEN_END = 4294967295;
+
     protected $fillable = [
         'name',
         'solved_issues_from',
@@ -22,6 +24,11 @@ class Rank extends Model implements HasMedia
         return [
             'is_active' => 'boolean',
         ];
+    }
+
+    public function isOpenEnded(): bool
+    {
+        return (int) $this->solved_issues_to >= self::OPEN_END;
     }
 
     public function registerMediaCollections(): void
