@@ -26,6 +26,8 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'investigator_name' => 'inv_'.str_replace('.', '', uniqid('', true)),
+            'account_type' => 'public',
+            'country' => 'SA',
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

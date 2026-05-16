@@ -4,10 +4,14 @@
     $selectedAvatarId = old('profile_avatar_id', $user->profile_avatar_id);
     $selectedAvatar = $profileAvatars->firstWhere('id', (int) $selectedAvatarId) ?? $user->profileAvatar;
     $currentAvatarUrl = $selectedAvatar?->getFirstMediaUrl('image');
+    $countryValue = old('country', $user->country);
+    $accountType = old('account_type', $user->account_type ?? 'public');
 @endphp
 
 @section('page-css')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
+    #country_select2 + .select2-container { width: 100% !important; }
     .profile-avatar-trigger {
         border-radius: 50%;
         transition: box-shadow 0.2s ease, transform 0.2s ease;
@@ -154,6 +158,26 @@
                     </div>
 
                     <div class="mb-4">
+                        <label class="form-label d-block mb-2">نوع الحساب</label>
+                        <div class="d-flex flex-wrap gap-4">
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="account_type_public" name="account_type" value="public" @checked($accountType === 'public') required>
+                                <label class="form-check-label" for="account_type_public">عام</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="account_type_private" name="account_type" value="private" @checked($accountType === 'private') required>
+                                <label class="form-check-label" for="account_type_private">خاص</label>
+                            </div>
+                        </div>
+                        <p class="form-text mb-0">الحساب الخاص يُخفِي اسم المحقق عن غير الأصدقاء في نقابة المحققين.</p>
+                        @error('account_type')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    @include('dashboard.availability-places.partials.country-select', ['countryValue' => $countryValue])
+
+                    <div class="mb-4">
                         <label for="name" class="form-label">الاسم</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $user->name) }}" required maxlength="255">
                         @error('name')
@@ -242,4 +266,5 @@
     });
 })();
 </script>
+@include('dashboard.availability-places.partials.country-select-init', ['countryValue' => $countryValue])
 @endsection

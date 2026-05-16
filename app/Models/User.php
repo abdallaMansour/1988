@@ -11,6 +11,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    public const ACCOUNT_PUBLIC = 'public';
+
+    public const ACCOUNT_PRIVATE = 'private';
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -22,6 +26,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'investigator_name',
+        'account_type',
+        'country',
         'profile_avatar_id',
         'email',
         'email_verified_at',
@@ -121,6 +127,33 @@ class User extends Authenticatable
     public function avatarUrl(): ?string
     {
         return $this->profileAvatar?->getFirstMediaUrl('image') ?: null;
+    }
+
+    public function isPrivateAccount(): bool
+    {
+        return $this->account_type === self::ACCOUNT_PRIVATE;
+    }
+
+    public function isPrivateTo(?User $viewer): bool
+    {
+        if (! $this->isPrivateAccount()) {
+            return false;
+        }
+
+        if (! $viewer || $viewer->id === $this->id) {
+            return false;
+        }
+
+        return ! $viewer->isFriendWith($this);
+    }
+
+    public function displayInvestigatorNameFor(?User $viewer): string
+    {
+        if ($this->isPrivateTo($viewer)) {
+            return 'XXX';
+        }
+
+        return (string) $this->investigator_name;
     }
 
     public function purchases()

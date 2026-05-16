@@ -7,6 +7,7 @@ use App\Models\Issue;
 use App\Models\Product;
 use App\Models\ProfileAvatar;
 use App\Models\Purchase;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -61,6 +62,8 @@ class UserDashboardController extends Controller
             'investigator_name' => ['required', 'string', 'max:255', Rule::unique('users', 'investigator_name')->ignore($user->id)],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8'],
+            'account_type' => ['required', Rule::in([User::ACCOUNT_PUBLIC, User::ACCOUNT_PRIVATE])],
+            'country' => ['required', 'string', 'size:2', 'regex:/^[A-Za-z]{2}$/'],
             'profile_avatar_id' => [
                 $hasAvatars ? 'required' : 'nullable',
                 'integer',
@@ -72,6 +75,8 @@ class UserDashboardController extends Controller
             'name' => $validated['name'],
             'investigator_name' => $validated['investigator_name'],
             'email' => $validated['email'],
+            'account_type' => $validated['account_type'],
+            'country' => strtoupper($validated['country']),
             'profile_avatar_id' => $validated['profile_avatar_id'] ?? null,
         ]);
 

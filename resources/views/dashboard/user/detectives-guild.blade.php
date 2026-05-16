@@ -44,7 +44,13 @@
                                 <i class="bx bx-user bx-lg"></i>
                             </span>
                         @endif
-                        <h6 class="mb-3">{{ $request->requester->investigator_name }}</h6>
+                        <div class="mb-3">
+                            @php $displayName = $request->requester->displayInvestigatorNameFor(auth()->user()); @endphp
+                            <h6 class="mb-1">{{ $displayName }}</h6>
+                            @if ($request->requester->isPrivateTo(auth()->user()))
+                                <span class="badge bg-label-secondary">حساب خاص</span>
+                            @endif
+                        </div>
                         <form action="{{ route('dashboard.user.friendships.accept', $request) }}" method="POST" class="w-100 mb-2">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-primary w-100">قبول</button>
@@ -89,7 +95,13 @@
                             <i class="bx bx-user bx-lg"></i>
                         </span>
                     @endif
-                    <h6 class="mb-3">{{ $investigator->investigator_name }}</h6>
+                    <div class="mb-3">
+                        @php $displayName = $investigator->displayInvestigatorNameFor(auth()->user()); @endphp
+                        <h6 class="mb-1">{{ $displayName }}</h6>
+                        @if ($investigator->isPrivateTo(auth()->user()))
+                            <span class="badge bg-label-secondary">حساب خاص</span>
+                        @endif
+                    </div>
                     <div class="mt-auto w-100 d-flex flex-column align-items-center">
                         @include('dashboard.user.partials.investigator-friendship-actions', compact('investigator', 'status', 'friendship'))
                     </div>
