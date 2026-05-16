@@ -34,6 +34,8 @@ return [
                 'users.edit' => 'تعديل المستخدم',
                 'users.delete' => 'حذف المستخدم',
                 'users.ban' => 'حظر المستخدم',
+                'profile-avatars.view' => 'عرض صور البروفايل',
+                'profile-avatars.manage' => 'إدارة صور البروفايل',
             ],
         ],
         'packages' => [

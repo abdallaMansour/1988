@@ -12,8 +12,11 @@ class ProfileController extends Controller
     public function getProfile()
     {
         $user = Auth::guard('api')->user();
+        $user->load('profileAvatar.media');
+
         return $this->sendResponse([
             'user' => $user,
+            'avatar_url' => $user->avatarUrl(),
             'subscription' => $user->activeSubscription,
             'package' => $user->activeSubscription?->package->allData(),
         ]);
@@ -21,15 +24,17 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $user = Auth::guard('api')->user();
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email,' . Auth::guard('api')->user()->id],
-            'investigator_name' => ['required', 'string', 'max:255', 'unique:users,investigator_name,' . Auth::guard('api')->user()->id],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
+            'investigator_name' => ['required', 'string', 'max:255', 'unique:users,investigator_name,' . $user->id],
             'password' => ['nullable', 'string', 'min:8'],
+            'profile_avatar_id' => ['nullable', 'integer', 'exists:profile_avatars,id'],
         ]);
 
-        $user = Auth::guard('api')->user();
-        $user->update($request->only('name', 'email', 'investigator_name'));
+        $user->update($request->only('name', 'email', 'investigator_name', 'profile_avatar_id'));
 
         if ($request->has('password')) {
             $user->update(['password' => Hash::make($request->password)]);

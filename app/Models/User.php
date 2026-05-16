@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'investigator_name',
+        'profile_avatar_id',
         'email',
         'email_verified_at',
         'password',
@@ -70,6 +71,16 @@ class User extends Authenticatable
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function profileAvatar()
+    {
+        return $this->belongsTo(ProfileAvatar::class);
+    }
+
+    public function avatarUrl(): ?string
+    {
+        return $this->profileAvatar?->getFirstMediaUrl('image') ?: null;
     }
 
     public function purchases()

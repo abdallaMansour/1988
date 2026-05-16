@@ -20,6 +20,7 @@ use App\Http\Controllers\Dashboard\MediaDepartmentController;
 use App\Http\Controllers\Dashboard\PagesController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\ProfileAvatarController;
 use App\Http\Controllers\Dashboard\RankController;
 use App\Http\Controllers\Dashboard\RatingController;
 use App\Http\Controllers\Dashboard\RoleController;
@@ -49,6 +50,7 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
         Route::get('friends', [UserDashboardController::class, 'friends'])->name('friends');
         Route::get('notifications', [UserDashboardController::class, 'notifications'])->name('notifications');
         Route::get('profile', [UserDashboardController::class, 'profile'])->name('profile');
+        Route::put('profile', [UserDashboardController::class, 'updateProfile'])->name('profile.update');
     });
 
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
@@ -90,6 +92,14 @@ Route::middleware(['auth:web,admin', EnsureUserVerified::class])->group(function
             Route::post('users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
             Route::post('users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');
         });
+
+        // Profile avatars CRUD (admin only — الصلاحيات داخل المتحكم)
+        Route::get('profile-avatars', [ProfileAvatarController::class, 'index'])->name('profile-avatars.index');
+        Route::get('profile-avatars/create', [ProfileAvatarController::class, 'create'])->name('profile-avatars.create');
+        Route::post('profile-avatars', [ProfileAvatarController::class, 'store'])->name('profile-avatars.store');
+        Route::get('profile-avatars/{profile_avatar}/edit', [ProfileAvatarController::class, 'edit'])->name('profile-avatars.edit');
+        Route::put('profile-avatars/{profile_avatar}', [ProfileAvatarController::class, 'update'])->name('profile-avatars.update');
+        Route::delete('profile-avatars/{profile_avatar}', [ProfileAvatarController::class, 'destroy'])->name('profile-avatars.destroy');
 
         // Products CRUD (admin only)
         Route::middleware('permission:products.manage')->group(function () {

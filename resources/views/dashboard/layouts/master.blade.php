@@ -86,7 +86,7 @@
                         </a>
                     </li>
 
-                    @if (auth('web')->check() && ! auth('admin')->check())
+                    @if (auth('web')->check() && !auth('admin')->check())
                         <li class="menu-item {{ request()->routeIs('dashboard.user.crimes-file') ? 'active' : '' }}">
                             <a href="{{ route('dashboard.user.crimes-file') }}" class="menu-link">
                                 <i class="menu-icon icon-base bx bx-folder-open"></i>
@@ -126,9 +126,9 @@
                     @endif
 
                     @auth('admin')
-                    <li class="menu-header small">
-                        <span class="menu-header-text" data-i18n="Settings">الإعدادات</span>
-                    </li>
+                        <li class="menu-header small">
+                            <span class="menu-header-text" data-i18n="Settings">الإعدادات</span>
+                        </li>
                         @if (auth('admin')->user()->canAccess('site-settings.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.about-novel.index') }}" class="menu-link">
@@ -261,12 +261,19 @@
                                 </a>
                             </li>
                         @endif
-                    @endauth
 
-                    @auth('admin')
-                    <li class="menu-header small">
-                        <span class="menu-header-text" data-i18n="Store">المتجر</span>
-                    </li>
+                        @if (auth('admin')->user()->canAccess('profile-avatars.view') || auth('admin')->user()->canAccess('profile-avatars.manage'))
+                            <li class="menu-item {{ request()->routeIs('dashboard.profile-avatars.*') ? 'active' : '' }}">
+                                <a href="{{ route('dashboard.profile-avatars.index') }}" class="menu-link">
+                                    <i class="menu-icon icon-base bx bx-user-circle"></i>
+                                    <div data-i18n="ProfileAvatars">صور البروفايل</div>
+                                </a>
+                            </li>
+                        @endif
+
+                        <li class="menu-header small">
+                            <span class="menu-header-text" data-i18n="Store">المتجر</span>
+                        </li>
                         @if (auth('admin')->user()->canAccess('products.view') || auth('admin')->user()->canAccess('products.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.products.index') }}" class="menu-link">
@@ -276,9 +283,9 @@
                             </li>
                         @endif
 
-                    <li class="menu-header small">
-                        <span class="menu-header-text" data-i18n="Issues">الجرائم</span>
-                    </li>
+                        <li class="menu-header small">
+                            <span class="menu-header-text" data-i18n="Issues">الجرائم</span>
+                        </li>
                         @if (auth('admin')->user()->canAccess('issues.view') || auth('admin')->user()->canAccess('issues.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.issues.index') }}" class="menu-link">
@@ -288,15 +295,15 @@
                             </li>
                         @endif
 
-                    <li class="menu-header small">
-                        <span class="menu-header-text" data-i18n="Support">الدعم الفني</span>
-                    </li>
-                    <li class="menu-item {{ request()->routeIs('dashboard.support-tickets.*') ? 'active' : '' }}">
-                        <a href="{{ route('dashboard.support-tickets.index') }}" class="menu-link">
-                            <i class="menu-icon icon-base bx bx-support"></i>
-                            <div data-i18n="Support Tickets">تذاكر الدعم الفني</div>
-                        </a>
-                    </li>
+                        <li class="menu-header small">
+                            <span class="menu-header-text" data-i18n="Support">الدعم الفني</span>
+                        </li>
+                        <li class="menu-item {{ request()->routeIs('dashboard.support-tickets.*') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard.support-tickets.index') }}" class="menu-link">
+                                <i class="menu-icon icon-base bx bx-support"></i>
+                                <div data-i18n="Support Tickets">تذاكر الدعم الفني</div>
+                            </a>
+                        </li>
                         @if (auth('admin')->user()->canAccess('technical-support.view') || auth('admin')->user()->canAccess('technical-support.manage'))
                             <li class="menu-item">
                                 <a href="{{ route('dashboard.technical-support.index') }}" class="menu-link">
@@ -829,8 +836,8 @@
     <!-- endbuild -->
 
     @hasSection('load-dashboard-charts')
-    <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+        <!-- Vendors JS -->
+        <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
     @endif
 
     <!-- Main JS -->
@@ -839,7 +846,7 @@
 
     <!-- Page JS -->
     @hasSection('load-dashboard-charts')
-    <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
+        <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
     @endif
 
     @yield('page-js')
